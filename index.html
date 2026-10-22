@@ -3,9 +3,9 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <title>alltheplugins.com — Free audio plugins</title>
-<meta name="description" content="Free audio plugins for your next session. Explore equalizers, compressors, color, and useful audio tools at alltheplugins.com.">
+<meta name="description" content="A freely shared collection of high-quality audio plugins for making music. Browse downloads, requirements, setup instructions, controls, and licenses at alltheplugins.com.">
 <meta property="og:title" content="alltheplugins.com — Free audio plugins">
-<meta property="og:description" content="Good sound. For everyone. Free audio plugins, clear documentation, and room to experiment.">
+<meta property="og:description" content="A personal, noncommercial project: high-quality audio plugins shared as a gift to anyone making music.">
 <meta property="og:type" content="website"><meta property="og:site_name" content="alltheplugins.com">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 
@@ -161,6 +161,29 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
 #atp-preview .atp-wordmark span {color:var(--atp-accent);}
 #atp-preview .atp-status {flex-basis:100%;font-size:12px;}
 #atp-preview .atp-footer {flex-wrap:wrap;}
+#atp-preview .atp-download-intro {display:grid;grid-template-columns:minmax(0,1.6fr) minmax(250px,1fr);gap:64px;padding:42px 0 28px;}
+#atp-preview .atp-download-intro h1,#atp-preview .atp-about-hero h1 {font-size:42px;line-height:1.15;letter-spacing:-1px;}
+#atp-preview .atp-download-intro p {max-width:620px;margin:18px 0 0;font-size:14px;line-height:1.7;color:var(--atp-muted);}
+#atp-preview .atp-download-intro .atp-download-formats {font-size:12px;color:var(--atp-ink);}
+#atp-preview .atp-getting-started {border-left:1px solid var(--atp-line);padding-left:28px;}
+#atp-preview .atp-getting-started h2 {font-size:15px;line-height:1.4;font-weight:500;margin:0 0 14px;}
+#atp-preview .atp-getting-started ol {margin:0 0 10px;padding-left:18px;color:var(--atp-muted);font-size:12px;line-height:1.65;}
+#atp-preview .atp-getting-started li {padding-left:3px;margin:0 0 10px;}
+#atp-preview .atp-text-action {display:inline-flex;align-items:center;gap:10px;min-height:40px;padding:0;border:0;background:none;color:var(--atp-accent);font-size:12px;text-decoration:underline;text-underline-offset:4px;cursor:pointer;}
+#atp-preview .atp-section-head {margin-top:18px;}
+#atp-preview .atp-about-hero {padding-top:42px;}
+#atp-preview .atp-about-downloads {border-top:1px solid var(--atp-line);padding-top:26px;}
+#atp-preview .atp-about-downloads h2 {font-size:18px;line-height:1.4;font-weight:500;letter-spacing:-.3px;margin:0 0 8px;}
+#atp-preview .atp-about-downloads p {font-size:13px;color:var(--atp-muted);margin:0 0 8px;}
+@media(max-width:760px){
+ #atp-preview .atp-download-intro {gap:30px;grid-template-columns:minmax(0,1.3fr) minmax(210px,1fr);}
+ #atp-preview .atp-getting-started {padding-left:22px;}
+}
+@media(max-width:540px){
+ #atp-preview .atp-download-intro {grid-template-columns:1fr;gap:24px;padding:28px 0 22px;}
+ #atp-preview .atp-download-intro h1,#atp-preview .atp-about-hero h1 {font-size:34px;}
+ #atp-preview .atp-getting-started {padding:20px 0 0;border-left:0;border-top:1px solid var(--atp-line);}
+}
 #atp-preview .atp-plugin {cursor:pointer;text-align:left;border:0;padding:0;background:transparent;font:inherit;color:inherit;}
 #atp-preview .atp-plugin-image {width:100%;height:180px;aspect-ratio:auto;min-height:0;flex:none;overflow:hidden;}
 #atp-preview .atp-plugin-image img {max-width:100%;max-height:100%;height:auto;object-fit:contain;}
@@ -241,9 +264,25 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
    <nav class="atp-nav" aria-label="Main navigation"><button type="button" class="cursor-interaction" data-page="home">Plugins</button><button type="button" class="atp-about atp-current cursor-interaction" data-page="about" aria-current="page">About</button><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
   </header>
   <main id="atp-home">
-   <section class="atp-hero"><div><p class="atp-eyebrow">Independent audio tools</p><h1>A little more<br>character.</h1></div><div class="atp-hero-copy"><p>Equalizers, compressors, and useful little things. Find your next session’s free audio tools at alltheplugins.com.</p><div class="atp-platform"><span>Windows x64</span><span class="atp-dot"></span><span>VST3</span><span class="atp-dot"></span><span>Free</span></div></div></section>
-   <section class="atp-feature" aria-label="Featured plugin ATP Sie-Q"><div class="atp-feature-copy"><p class="atp-eyebrow">In the spotlight / EQ</p><h2>ATP Sie-Q</h2><p>Broad strokes. A little drive.<br>A three-band EQ that keeps things simple.</p><button type="button" class="atp-primary cursor-interaction" data-page="detail">Explore the plugin <span aria-hidden="true">↗</span></button></div><div class="atp-feature-image"><img data-image="Sie-Q" alt="Actual ATP Sie-Q plugin editor" width="760" height="408"></div></section>
-   <section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Find your next sound.</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
+   <section class="atp-download-intro" aria-labelledby="atp-intro-title">
+ <div>
+  <h1 id="atp-intro-title">Free audio plugins</h1>
+  <p>alltheplugins.com is an open-source collection of high-quality audio plugins that anybody can use to express their musical creativity.</p>
+  <p>I’m a software developer and musician. This is a personal, noncommercial project and a gift from me to the world. I simply want to share.</p>
+  <p class="atp-download-formats">Current downloads: Windows x64 · VST3</p>
+ </div>
+ <aside class="atp-getting-started" aria-label="Getting started">
+  <h2>Getting started</h2>
+  <ol>
+   <li>Browse the downloads below. Search by name, or filter by type and original vendor.</li>
+   <li>Open a plugin’s page for its download, requirements, controls, installation instructions, and license.</li>
+   <li>Install it in your audio host and make music.</li>
+  </ol>
+  <button type="button" class="atp-text-action" data-page="about">About this project <span aria-hidden="true">→</span></button>
+ </aside>
+</section>
+
+   <section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Plugin downloads</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
     <div class="atp-catalog-controls" aria-label="Browse the catalog">
  <label class="atp-catalog-field atp-catalog-search">Search
   <input type="search" id="atp-search" aria-label="Search plugins" placeholder="Name, inspiration, or vendor">
@@ -284,13 +323,25 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
    </div><aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd>Equalizer + drive</dd></div><div><dt>Format</dt><dd>VST3</dd></div><div><dt>Platform</dt><dd>Windows x64</dd></div><div><dt>Channels</dt><dd>Mono / Stereo</dd></div><div><dt>Version</dt><dd>0.1.0</dd></div><div><dt>Binary license</dt><dd>MIT</dd></div></dl><p class="atp-note" data-attribution="sie-q"><span data-plugin-attribution>Inspired by Sie-Q. Not affiliated with Soundtoys.</span></p><a href="https://github.com/someonelikeTIM/all-the-plugins/blob/main/ATP-SIE-Q.md" target="_blank" rel="noopener noreferrer">View on GitHub ↗</a></aside></div>
   </main>
   <main id="atp-about-page" hidden>
-   <section class="atp-about-hero"><div><p class="atp-eyebrow">About alltheplugins.com</p><h1>Good sound.<br>For everyone.</h1></div><p class="atp-about-intro">A growing collection of 100% free, open-source audio plugins.</p></section>
-   <section class="atp-about-story" aria-label="The idea"><p class="atp-eyebrow">The idea</p><div><p>Sometimes you need a broad EQ. Sometimes a little color. Sometimes just a better way to listen.</p><p>alltheplugins.com brings those useful tools together in one place, with free downloads, clear documentation, and the freedom to make them part of your own work.</p></div></section>
+   <section class="atp-about-hero"><div><p class="atp-eyebrow">About alltheplugins.com</p><h1>Why I’m sharing<br>these plugins.</h1></div><p class="atp-about-intro">A growing collection of 100% free, open-source audio plugins.</p></section>
+   <section class="atp-about-story" aria-label="The idea">
+ <p class="atp-eyebrow">The idea</p>
+ <div>
+  <p>I’m building an open-source collection of high-quality audio plugins that anybody can use to express their musical creativity.</p>
+  <p>This is a personal project, not a company. There’s no commercial or capitalist motive behind it. I’m a software developer and musician, and these plugins are a gift from me to the world. I simply want to share.</p>
+ </div>
+</section>
+
    <section class="atp-principles" aria-label="What we believe"><article class="atp-principle"><span class="atp-number">01 / ACCESS</span><h2>100% free, always.</h2><p>Your creativity should not be locked behind a paywall. We put creative tools in your hands so you can make music, express yourself, and create human art without the cost of entry.</p></article><article class="atp-principle"><span class="atp-number">02 / CREATE</span><h2>Make it yours.</h2><p>Our MIT-licensed plugin binaries come with broad permissions to use, modify, and share. Each plugin page includes its full license and required notices.</p></article><article class="atp-principle"><span class="atp-number">03 / CONTRIBUTE</span><h2>Share your work</h2><p>Create without limits. Modify a plugin to match your vibe, or mix and match to spark new ideas. Share what you make and contribute through our <a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">public GitHub repo</a>.</p></article></section>
-   <section class="atp-about-questions" aria-labelledby="atp-questions-heading"><h2 id="atp-questions-heading">A few good<br>questions.</h2><div><details><summary class="cursor-interaction">What do I need to use the plugins?</summary><p>Each plugin page lists its specific requirements, controls, and installation instructions.</p></details><details><summary class="cursor-interaction">What does “inspired by” mean?</summary><p>Our plugins are inspired by a plethora of sounds and workflows I’ve encountered in my 20+ years as a music producer and mix engineer.</p><p>All our plugins are original software, inspired by familiar sounds to enable your creativity. We have no affiliation with the vendors of products that inspire them.</p></details><details><summary class="cursor-interaction">Where can I find the source code?</summary><p>To keep things tidy, this site and repo currently contain plugin downloads, but no source code. The source code for all our plugins will be posted in the coming days. We’re getting it ready and want to make sure we present it in a clean, accessible way.</p><p>For early access, email <a href="mailto:fit-plug-surfer@duck.com">fit-plug-surfer@duck.com</a>.</p></details></div></section>
-   <section class="atp-about-cta"><div><h2>Make something with it.</h2><p>Your next session is a good place to start.</p></div><button type="button" class="atp-primary cursor-interaction" data-page="home">Explore the plugins <span aria-hidden="true">↗</span></button></section>
+   <section class="atp-about-questions" aria-labelledby="atp-questions-heading"><h2 id="atp-questions-heading">Questions and answers</h2><div><details><summary class="cursor-interaction">What do I need to use the plugins?</summary><p>Each plugin page lists its specific requirements, controls, and installation instructions.</p></details><details><summary class="cursor-interaction">What does “inspired by” mean?</summary><p>Our plugins are inspired by a plethora of sounds and workflows I’ve encountered in my 20+ years as a music producer and mix engineer.</p><p>All our plugins are original software, inspired by familiar sounds to enable your creativity. We have no affiliation with the vendors of products that inspire them.</p></details><details><summary class="cursor-interaction">Where can I find the source code?</summary><p>To keep things tidy, this site and repo currently contain plugin downloads, but no source code. The source code for all our plugins will be posted in the coming days. We’re getting it ready and want to make sure we present it in a clean, accessible way.</p><p>For early access, email <a href="mailto:fit-plug-surfer@duck.com">fit-plug-surfer@duck.com</a>.</p></details></div></section>
+   <section class="atp-about-downloads" aria-labelledby="atp-about-downloads-title">
+ <h2 id="atp-about-downloads-title">Downloads and documentation</h2>
+ <p>The catalog links to each plugin’s download, setup instructions, controls, and license.</p>
+ <button type="button" class="atp-text-action" data-page="home">Browse downloads <span aria-hidden="true">→</span></button>
+</section>
+
   </main>
-  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>Useful tools. Free to explore.</strong></p><p>Independent audio plugins for Windows VST3 hosts.</p></div><div><p>alltheplugins.com</p><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">Explore the repository ↗</a></div></footer>
+  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p><p>Audio plugins for musical creativity.</p></div><div><p>alltheplugins.com</p><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">Files on GitHub ↗</a></div></footer>
  </div>
 </div>
 <noscript><p>Explore the plugin downloads and documentation at <a href="https://github.com/someonelikeTIM/all-the-plugins">the alltheplugins.com catalog on GitHub</a>. Enable JavaScript to browse this site.</p></noscript>
@@ -513,8 +564,6 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    fragment.append(card);
   });
   $('#atp-grid').replaceChildren(fragment);setView(state.view);filter();
-  const featured=state.plugins.find(plugin=>plugin.slug==='sie-q')||state.plugins[0];
-  if(featured)$$('[data-image="Sie-Q"]').forEach(image=>image.src=screenshot(featured));
  }
  function showTab(tab){
   if(!['overview','controls','install','license'].includes(tab))tab='overview';
@@ -535,7 +584,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   $('#plugin-title').textContent=plugin.name;
   document.title=plugin.name+' — alltheplugins.com';
   $('.atp-detail-top .atp-eyebrow').textContent=plugin.category+' / Version '+plugin.version;
-  $('.atp-detail-top p:not(.atp-eyebrow)').textContent=curated[plugin.slug]||'Explore '+plugin.name+' at alltheplugins.com.';
+  $('.atp-detail-top p:not(.atp-eyebrow)').textContent=curated[plugin.slug]||'Documentation and downloads for '+plugin.name+'.';
   $('.atp-detail-image img').src=screenshot(plugin);
   $('.atp-detail-image img').alt=plugin.name+' editor';
   $('.atp-download small').textContent='Free · Windows x64 · v'+plugin.version;
