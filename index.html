@@ -263,25 +263,41 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
 #atp-preview .atp-view-switch button[aria-pressed="true"] {background:var(--atp-ink);color:var(--atp-bg);}
 #atp-preview .atp-active-filters {display:flex;justify-content:flex-end;}
 #atp-preview #atp-clear-filters {padding:0 0 12px;border:0;background:none;color:var(--atp-accent);font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
-#atp-preview .atp-list-heading {display:grid;grid-template-columns:minmax(200px,1.4fr) 100px minmax(220px,1.5fr);align-items:center;gap:18px;padding:10px 12px;border-bottom:1px solid var(--atp-line);color:var(--atp-muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+#atp-preview .atp-list-heading {display:grid;grid-template-columns:minmax(160px,1.2fr) 90px minmax(180px,1.3fr) 115px 70px;align-items:center;gap:16px;padding:10px 12px;border-bottom:1px solid var(--atp-line);color:var(--atp-muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
 #atp-preview .atp-plugin-inspiration {display:block;order:4;font-size:11px;color:var(--atp-muted);margin-top:8px;overflow-wrap:anywhere;}
+#atp-preview .atp-plugin-platforms,#atp-preview .atp-plugin-formats {display:none;}
+#atp-preview .atp-compatibility-label {display:none;}
+#atp-preview .atp-os-icon {display:inline-flex;align-items:center;justify-content:center;width:18px;height:20px;color:var(--atp-muted);}
+#atp-preview .atp-os-icon svg {display:block;width:16px;height:16px;fill:currentColor;}
 #atp-preview .atp-plugin-summary {order:3;}
 #atp-preview .atp-plugin-tail {order:2;}
 #atp-preview .atp-plugin-meta {order:1;}
 #atp-preview[data-catalog-view="list"] .atp-grid {display:flex;flex-direction:column;gap:0;}
-#atp-preview[data-catalog-view="list"] .atp-plugin {display:grid;grid-template-columns:minmax(200px,1.4fr) 100px minmax(220px,1.5fr);align-items:center;gap:18px;min-height:50px;padding:10px 12px;border-bottom:1px solid var(--atp-line);border-radius:0;}
+#atp-preview[data-catalog-view="list"] .atp-plugin {display:grid;grid-template-columns:minmax(160px,1.2fr) 90px minmax(180px,1.3fr) 115px 70px;align-items:center;gap:16px;min-height:50px;padding:10px 12px;border-bottom:1px solid var(--atp-line);border-radius:0;}
 #atp-preview[data-catalog-view="list"] .atp-plugin:hover {background:var(--atp-tint);}
 #atp-preview[data-catalog-view="list"] .atp-plugin-image,#atp-preview[data-catalog-view="list"] .atp-free,#atp-preview[data-catalog-view="list"] .atp-plugin-summary,#atp-preview[data-catalog-view="list"] .atp-inspiration-label {display:none;}
 #atp-preview[data-catalog-view="list"] .atp-plugin-meta,#atp-preview[data-catalog-view="list"] .atp-plugin-tail {display:contents;}
 #atp-preview[data-catalog-view="list"] .atp-plugin h3 {grid-column:1;grid-row:1;margin:0;font-size:14px;line-height:1.4;letter-spacing:-.25px;}
 #atp-preview[data-catalog-view="list"] .atp-plugin-type {grid-column:2;grid-row:1;font-size:12px;letter-spacing:0;text-transform:none;color:var(--atp-accent);}
 #atp-preview[data-catalog-view="list"] .atp-plugin-inspiration {grid-column:3;grid-row:1;margin:0;font-size:12px;}
+#atp-preview[data-catalog-view="list"] .atp-plugin-platforms,#atp-preview[data-catalog-view="list"] .atp-plugin-formats {display:flex;align-items:center;gap:8px;grid-row:1;font-size:11px;color:var(--atp-muted);}
+#atp-preview[data-catalog-view="list"] .atp-plugin-platforms {grid-column:4;}
+#atp-preview[data-catalog-view="list"] .atp-plugin-formats {grid-column:5;white-space:nowrap;}
+#atp-preview[data-catalog-view="list"] .atp-platform-other {font-size:11px;}
 @media(max-width:1000px){
  #atp-preview .atp-catalog-controls {grid-template-columns:repeat(4,minmax(0,1fr));grid-template-areas:"search search search view" "type type sort sort";}
  #atp-preview .atp-view-switch {justify-self:end;}
+ #atp-preview .atp-list-heading,#atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(140px,1.2fr) 80px minmax(140px,1.3fr) 110px 65px;gap:12px;}
 }
 @media(max-width:760px){
- #atp-preview .atp-list-heading,#atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(150px,1.5fr) 95px minmax(160px,1.2fr);gap:12px;}
+ #atp-preview .atp-list-heading {display:none;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(0,1fr) auto;gap:3px 10px;min-height:84px;padding:10px 5px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-type {grid-column:2;grid-row:1;font-size:11px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-inspiration {grid-column:1 / 3;grid-row:2;font-size:11px;}
+ #atp-preview[data-catalog-view="list"] .atp-inspiration-label {display:inline;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-platforms {grid-column:1;grid-row:3;margin-top:4px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-formats {grid-column:2;grid-row:3;margin-top:4px;}
+ #atp-preview[data-catalog-view="list"] .atp-compatibility-label {display:inline;}
 }
 @media(max-width:540px){
  #atp-preview .atp-catalog-controls {grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"search search" "type sort" "view view";gap:10px;}
@@ -348,7 +364,7 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
  </div>
 </div>
 <div class="atp-active-filters"><button type="button" id="atp-clear-filters" hidden>Clear filters</button></div>
-<div class="atp-list-heading" aria-hidden="true"><span>Plugin</span><span>Type</span><span>Inspired by</span></div>
+<div class="atp-list-heading" aria-hidden="true"><span>Plugin</span><span>Type</span><span>Inspired by</span><span>OS Compatibility</span><span>Format</span></div>
 
     <div class="atp-grid" id="atp-grid"></div><p class="atp-empty" id="atp-empty" role="status" hidden>No plugins match. Try another search.</p>
    </section>
@@ -798,6 +814,34 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   $('#catalog-count').textContent=shown===state.plugins.length?shown+' plugins':shown+' of '+state.plugins.length+' plugins';
   $('#atp-clear-filters').hidden=state.category==='All'&&!state.query;
  }
+ function withPublishedDownloads(plugin,source){
+  return {...plugin,downloads:source?ATPDownloadFiles.parseDownloads(source,{baseUrl:RAW+plugin.doc,version:plugin.version}):[]};
+ }
+ function compatibility(plugin){
+  const files=plugin.downloads||[];
+  const order=['Windows','macOS'];
+  const platforms=[...new Set(files.map(file=>file.platform))].sort((a,b)=>(order.includes(a)?order.indexOf(a):2)-(order.includes(b)?order.indexOf(b):2)||collator.compare(a,b));
+  const formats=[...new Set(files.flatMap(file=>file.formats))].sort((a,b)=>['VST3','AU','VST2'].indexOf(a)-['VST3','AU','VST2'].indexOf(b));
+  return {platforms,formats};
+ }
+ function renderCompatibility(card,available){
+  const icons={
+   Windows:'<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M0 2.3 6.5 1.4v6.1H0zm7.5-1L16 0v7.5H7.5zM0 8.5h6.5v6.1L0 13.7zm7.5 0H16V16l-8.5-1.2z"/></svg>',
+   macOS:'<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M11.18 0c.09.95-.3 1.87-.86 2.55-.58.67-1.5 1.17-2.43 1.1-.12-.91.34-1.87.88-2.47C9.37.5 10.36.04 11.18 0ZM13.84 12.36c-.36.83-.54 1.2-1 1.93-.66 1.02-1.59 2.28-2.74 2.29-1.02.01-1.28-.66-2.67-.65-1.38.01-1.68.67-2.7.66-1.15-.01-2.03-1.14-2.69-2.16-1.85-2.84-2.04-6.19-.9-7.97.81-1.26 2.09-2 3.3-2 1.23 0 2 .68 3.01.68.98 0 1.57-.68 3-.68 1.07 0 2.21.59 3.02 1.61-2.66 1.45-2.22 5.22.37 6.29Z" transform="translate(1 0) scale(.9)"/></svg>'
+  };
+  const platforms=card.querySelector('.atp-plugin-platforms');
+  for(const platform of available.platforms){
+   const icon=document.createElement('span');
+   const label=platform==='Other'?'Platform not specified':platform;
+   icon.title=label+' download available';
+   if(icons[platform]){icon.className='atp-os-icon';icon.setAttribute('role','img');icon.setAttribute('aria-label',label);icon.innerHTML=icons[platform];}
+   else{icon.className='atp-platform-other';icon.textContent=label;}
+   platforms.append(icon);
+  }
+  if(!available.platforms.length){const empty=document.createElement('span');empty.textContent='—';empty.title='No published downloads';platforms.append(empty);}
+  card.querySelector('[data-published-formats]').textContent=available.formats.join(' / ')||'—';
+  card.querySelector('.atp-plugin-formats').title=available.formats.length?'Published formats: '+available.formats.join(' / '):'No published downloads';
+ }
  function renderCatalog(){
   populateFilters();
   const fragment=document.createDocumentFragment();
@@ -806,13 +850,15 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    card.className='atp-plugin';card.href='#/plugins/'+plugin.slug;
    card.dataset.category=plugin.category;
    card.dataset.search=[plugin.name,plugin.category,plugin.inspiration].join(' ').toLowerCase();
-   card.setAttribute('aria-label',plugin.name+'. Type: '+plugin.category+'.'+(plugin.inspiration?' Inspired by '+plugin.inspiration+'.':''));
-   card.innerHTML='<span class="atp-plugin-image"><img></span><span class="atp-plugin-meta"><span class="atp-plugin-type"></span><span class="atp-free">Free</span></span><span class="atp-plugin-tail"><h3></h3></span><p class="atp-plugin-summary"></p><span class="atp-plugin-inspiration"><span class="atp-inspiration-label">Inspired by: </span><span data-inspiration-name></span></span>';
+   const available=compatibility(plugin);
+   card.setAttribute('aria-label',plugin.name+'. Type: '+plugin.category+'.'+(plugin.inspiration?' Inspired by '+plugin.inspiration+'.':'')+' OS compatibility: '+(available.platforms.join(', ')||'No published downloads')+'. Format: '+(available.formats.join(', ')||'No published downloads')+'.');
+   card.innerHTML='<span class="atp-plugin-image"><img></span><span class="atp-plugin-meta"><span class="atp-plugin-type"></span><span class="atp-free">Free</span></span><span class="atp-plugin-tail"><h3></h3></span><p class="atp-plugin-summary"></p><span class="atp-plugin-inspiration"><span class="atp-inspiration-label">Inspired by: </span><span data-inspiration-name></span></span><span class="atp-plugin-platforms"><span class="atp-compatibility-label">OS:</span></span><span class="atp-plugin-formats"><span class="atp-compatibility-label">Format:</span><span data-published-formats></span></span>';
    const image=card.querySelector('img');image.src=screenshot(plugin);image.alt=plugin.name+' editor';image.loading='lazy';card.querySelector('.atp-plugin-image').hidden=!plugin.image;
    card.querySelector('.atp-plugin-meta > span').textContent=plugin.category;
    card.querySelector('h3').textContent=plugin.name;
    card.querySelector('p').textContent=plugin.summary||plugin.description||(plugin.inspiration?'Inspired by '+plugin.inspiration+'.':'Open for documentation and downloads.');
    card.querySelector('[data-inspiration-name]').textContent=plugin.inspiration||'Not specified';
+   renderCompatibility(card,available);
    fragment.append(card);
   });
   $('#atp-grid').replaceChildren(fragment);setView(state.view);filter();updateReleaseSummary();
@@ -896,7 +942,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
      try{
       const source=(await fetchText(new URL(entry.doc,RAW).href+'?catalog='+revision)).replace(/\r\n?/g,'\n');
       cache.set(entry.doc,Promise.resolve(source));
-      return {...ATPCatalog.pluginFromDocument(entry,source),fresh:true};
+      return {...withPublishedDownloads(ATPCatalog.pluginFromDocument(entry,source),source),fresh:true};
      }catch{
       incomplete=true;const previous=state.plugins.find(plugin=>plugin.doc===entry.doc);
       return {...previous,...entry,category:entry.category||previous?.category||'Utility',inspiration:entry.inspiration||'',vendor:entry.vendor||''};
@@ -930,7 +976,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0,behavior:'instant'});});
  async function start(){
   try{
-   const snapshot=fallback||await (await fetch('catalog.json')).json();state.plugins=snapshot.plugins;state.lastUploadAt=snapshot.lastUploadAt||null;root.dataset.catalogSource='snapshot';
+   const snapshot=fallback||await (await fetch('catalog.json')).json();state.plugins=snapshot.plugins.map(plugin=>withPublishedDownloads(plugin,snapshot.documents?.[plugin.doc]));state.lastUploadAt=snapshot.lastUploadAt||null;root.dataset.catalogSource='snapshot';
    if(!state.plugins.length)throw new Error('Empty catalog');
    renderCatalog();route();refreshCatalog();
   }catch{status('The catalog could not load. Please visit the repository for downloads.');}
