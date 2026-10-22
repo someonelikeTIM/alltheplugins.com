@@ -183,10 +183,58 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
  #atp-preview .atp-search input {font-size:16px;}
  #atp-preview .atp-filter {min-height:44px;}
 }
+#atp-preview .atp-catalog-controls {display:grid;grid-template-columns:minmax(170px,1fr) 125px 165px 150px auto;grid-template-areas:"search type vendor sort view";align-items:end;gap:12px;border-top:1px solid var(--atp-line);border-bottom:1px solid var(--atp-line);padding:16px 0;margin-bottom:16px;}
+#atp-preview .atp-catalog-field {display:flex;flex-direction:column;gap:5px;min-width:0;font-size:11px;color:var(--atp-muted);}
+#atp-preview .atp-catalog-search {grid-area:search;}
+#atp-preview .atp-catalog-type {grid-area:type;}
+#atp-preview .atp-catalog-vendor {grid-area:vendor;}
+#atp-preview .atp-catalog-sort {grid-area:sort;}
+#atp-preview .atp-catalog-field input,#atp-preview .atp-catalog-field select {width:100%;min-width:0;min-height:40px;padding:8px 9px;border:1px solid var(--atp-line);border-radius:var(--atp-radius);background:var(--atp-surface);color:var(--atp-ink);font:13px/1.4 Arial,Helvetica,sans-serif;}
+#atp-preview .atp-catalog-field input::placeholder {color:var(--atp-muted);}
+#atp-preview .atp-view-switch {grid-area:view;display:flex;align-self:end;border:1px solid var(--atp-line);border-radius:var(--atp-radius);overflow:hidden;}
+#atp-preview .atp-view-switch button {min-height:38px;min-width:51px;border:0;background:var(--atp-surface);color:var(--atp-muted);padding:8px 12px;font-size:12px;cursor:pointer;}
+#atp-preview .atp-view-switch button[aria-pressed="true"] {background:var(--atp-ink);color:var(--atp-bg);}
+#atp-preview .atp-active-filters {display:flex;justify-content:flex-end;}
+#atp-preview #atp-clear-filters {padding:0 0 12px;border:0;background:none;color:var(--atp-accent);font-size:12px;text-decoration:underline;text-underline-offset:3px;cursor:pointer;}
+#atp-preview .atp-list-heading {display:grid;grid-template-columns:minmax(170px,1.4fr) 100px minmax(110px,1fr) minmax(140px,1.4fr) 16px;align-items:center;gap:18px;padding:10px 12px;border-bottom:1px solid var(--atp-line);color:var(--atp-muted);font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+#atp-preview .atp-plugin-inspiration {display:none;}
+#atp-preview .atp-plugin-vendor {order:4;font-size:11px;color:var(--atp-muted);margin-top:8px;}
+#atp-preview .atp-plugin-summary {order:3;}
+#atp-preview .atp-plugin-tail {order:2;}
+#atp-preview .atp-plugin-meta {order:1;}
+#atp-preview[data-catalog-view="list"] .atp-grid {display:flex;flex-direction:column;gap:0;}
+#atp-preview[data-catalog-view="list"] .atp-plugin {display:grid;grid-template-columns:minmax(170px,1.4fr) 100px minmax(110px,1fr) minmax(140px,1.4fr) 16px;align-items:center;gap:18px;min-height:50px;padding:10px 12px;border-bottom:1px solid var(--atp-line);border-radius:0;}
+#atp-preview[data-catalog-view="list"] .atp-plugin:hover {background:var(--atp-tint);}
+#atp-preview[data-catalog-view="list"] .atp-plugin-image,#atp-preview[data-catalog-view="list"] .atp-free,#atp-preview[data-catalog-view="list"] .atp-plugin-summary,#atp-preview[data-catalog-view="list"] .atp-vendor-label {display:none;}
+#atp-preview[data-catalog-view="list"] .atp-plugin-meta,#atp-preview[data-catalog-view="list"] .atp-plugin-tail {display:contents;}
+#atp-preview[data-catalog-view="list"] .atp-plugin h3 {grid-column:1;grid-row:1;margin:0;font-size:14px;line-height:1.4;letter-spacing:-.25px;}
+#atp-preview[data-catalog-view="list"] .atp-plugin-type {grid-column:2;grid-row:1;font-size:12px;letter-spacing:0;text-transform:none;color:var(--atp-accent);}
+#atp-preview[data-catalog-view="list"] .atp-plugin-vendor {grid-column:3;grid-row:1;margin:0;font-size:12px;color:var(--atp-muted);}
+#atp-preview[data-catalog-view="list"] .atp-plugin-inspiration {display:block;grid-column:4;grid-row:1;font-size:12px;color:var(--atp-muted);}
+#atp-preview[data-catalog-view="list"] .atp-plugin-arrow {grid-column:5;grid-row:1;font-size:16px;}
+@media(max-width:1000px){
+ #atp-preview .atp-catalog-controls {grid-template-columns:repeat(6,minmax(0,1fr));grid-template-areas:"search search search search view view" "type type vendor vendor sort sort";}
+ #atp-preview .atp-view-switch {justify-self:end;}
+}
+@media(max-width:760px){
+ #atp-preview .atp-list-heading,#atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(150px,1.5fr) 95px minmax(120px,1fr) 16px;gap:12px;}
+ #atp-preview .atp-list-heading > span:nth-child(4),#atp-preview[data-catalog-view="list"] .atp-plugin-inspiration {display:none;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-arrow {grid-column:4;}
+}
+@media(max-width:540px){
+ #atp-preview .atp-catalog-controls {grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"search search" "type vendor" "sort view";gap:10px;}
+ #atp-preview .atp-catalog-field input,#atp-preview .atp-catalog-field select {min-height:44px;font-size:16px;}
+ #atp-preview .atp-view-switch button {min-height:42px;min-width:55px;}
+ #atp-preview .atp-list-heading {display:none;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(0,1fr) auto 14px;gap:3px 10px;min-height:62px;padding:10px 5px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-type {grid-column:2;grid-row:1;font-size:11px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-vendor {grid-column:1 / 3;grid-row:2;font-size:11px;}
+ #atp-preview[data-catalog-view="list"] .atp-plugin-arrow {grid-column:3;grid-row:1 / 3;}
+}
 </style>
 
 </head><body>
-<div id="atp-preview" aria-label="alltheplugins.com">
+<div id="atp-preview" data-catalog-view="list" aria-label="alltheplugins.com">
  <div class="atp-wrap">
   <header class="atp-header">
    <button type="button" class="atp-logo cursor-interaction" data-page="home" aria-label="alltheplugins.com home"><span class="atp-mark" aria-hidden="true"><b></b><b></b><b></b></span><span class="atp-wordmark">alltheplugins<span>.com</span></span></button>
@@ -195,9 +243,32 @@ body {margin:0;background:light-dark(#f7f5ef,#141513);}
   <main id="atp-home">
    <section class="atp-hero"><div><p class="atp-eyebrow">Independent audio tools</p><h1>A little more<br>character.</h1></div><div class="atp-hero-copy"><p>Equalizers, compressors, and useful little things. Find your next session’s free audio tools at alltheplugins.com.</p><div class="atp-platform"><span>Windows x64</span><span class="atp-dot"></span><span>VST3</span><span class="atp-dot"></span><span>Free</span></div></div></section>
    <section class="atp-feature" aria-label="Featured plugin ATP Sie-Q"><div class="atp-feature-copy"><p class="atp-eyebrow">In the spotlight / EQ</p><h2>ATP Sie-Q</h2><p>Broad strokes. A little drive.<br>A three-band EQ that keeps things simple.</p><button type="button" class="atp-primary cursor-interaction" data-page="detail">Explore the plugin <span aria-hidden="true">↗</span></button></div><div class="atp-feature-image"><img data-image="Sie-Q" alt="Actual ATP Sie-Q plugin editor" width="760" height="408"></div></section>
-   <section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Find your next sound.</h2><span id="catalog-count">From the collection</span></div>
-    <div class="atp-toolbar"><div class="atp-filters" aria-label="Plugin categories"><button type="button" class="atp-filter cursor-interaction" aria-pressed="true" data-category="All">All plugins</button><button type="button" class="atp-filter cursor-interaction" aria-pressed="false" data-category="EQ">EQ</button><button type="button" class="atp-filter cursor-interaction" aria-pressed="false" data-category="Dynamics">Dynamics</button><button type="button" class="atp-filter cursor-interaction" aria-pressed="false" data-category="Color">Color</button><button type="button" class="atp-filter cursor-interaction" aria-pressed="false" data-category="Utility">Utility</button></div><label class="atp-search"><span aria-hidden="true">⌕</span><input type="search" id="atp-search" aria-label="Search plugins" placeholder="Search plugins"></label></div>
-    <div class="atp-grid" id="atp-grid" aria-live="polite"></div><p class="atp-empty" id="atp-empty" role="status" hidden>No plugins match. Try another search.</p>
+   <section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Find your next sound.</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
+    <div class="atp-catalog-controls" aria-label="Browse the catalog">
+ <label class="atp-catalog-field atp-catalog-search">Search
+  <input type="search" id="atp-search" aria-label="Search plugins" placeholder="Name, inspiration, or vendor">
+ </label>
+ <label class="atp-catalog-field atp-catalog-type">Type
+  <select id="atp-type" aria-label="Plugin type"><option value="All">All types</option></select>
+ </label>
+ <label class="atp-catalog-field atp-catalog-vendor">Original vendor
+  <select id="atp-vendor" aria-label="Original vendor"><option value="All">All vendors</option></select>
+ </label>
+ <label class="atp-catalog-field atp-catalog-sort">Sort by
+  <select id="atp-sort" aria-label="Sort plugins">
+   <option value="name-asc">Name: A–Z</option><option value="name-desc">Name: Z–A</option>
+   <option value="type-asc">Type: A–Z</option><option value="type-desc">Type: Z–A</option>
+   <option value="vendor-asc">Vendor: A–Z</option><option value="vendor-desc">Vendor: Z–A</option>
+  </select>
+ </label>
+ <div class="atp-view-switch" role="group" aria-label="Catalog view">
+  <button type="button" data-view="list" aria-pressed="true">List</button><button type="button" data-view="grid" aria-pressed="false">Grid</button>
+ </div>
+</div>
+<div class="atp-active-filters"><button type="button" id="atp-clear-filters" hidden>Clear filters</button></div>
+<div class="atp-list-heading" aria-hidden="true"><span>Plugin</span><span>Type</span><span>Original vendor</span><span>Inspired by</span><span></span></div>
+
+    <div class="atp-grid" id="atp-grid"></div><p class="atp-empty" id="atp-empty" role="status" hidden>No plugins match. Try another search.</p>
    </section>
   </main>
   <main id="atp-detail" hidden>
@@ -309,7 +380,13 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  const $$=selector=>[...root.querySelectorAll(selector)];
  const bundled=document.getElementById('release-data');
  const fallback=bundled?JSON.parse(bundled.textContent):null;
- const state={plugins:[],category:'All',query:'',current:null,request:0};
+ const state={plugins:[],category:'All',vendor:'All',query:'',view:'list',sort:'name-asc',current:null,request:0};
+ const collator=new Intl.Collator('en',{numeric:true,sensitivity:'base'});
+ try {
+  const saved=JSON.parse(localStorage.getItem('alltheplugins.catalog')||'{}');
+  if(['list','grid'].includes(saved.view))state.view=saved.view;
+  if(['name-asc','name-desc','type-asc','type-desc','vendor-asc','vendor-desc'].includes(saved.sort))state.sort=saved.sort;
+ }catch{/* Browsing works without persistent storage. */}
  const cache=new Map();
  const curated={
   'sie-q':'Broad three-band EQ with drive.',
@@ -381,30 +458,61 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   cache.set(plugin.doc,request);
   try{return await request;}catch(error){cache.delete(plugin.doc);throw error;}
  }
+ function savePreferences(){
+  try{localStorage.setItem('alltheplugins.catalog',JSON.stringify({view:state.view,sort:state.sort}));}catch{/* Storage is optional. */}
+ }
+ function setView(view){
+  state.view=view==='grid'?'grid':'list';
+  root.dataset.catalogView=state.view;
+  $$('[data-view]').forEach(button=>button.setAttribute('aria-pressed',String(button.dataset.view===state.view)));
+  $('.atp-list-heading').hidden=state.view!=='list';
+ }
+ function populateFilters(){
+  const types=[...new Set(state.plugins.map(plugin=>plugin.category))].sort(collator.compare);
+  const vendors=[...new Set(state.plugins.map(plugin=>plugin.vendor||'Not specified'))].sort(collator.compare);
+  for(const [selector,values,allLabel,current] of [['#atp-type',types,'All types',state.category],['#atp-vendor',vendors,'All vendors',state.vendor]]){
+   const select=$(selector);select.replaceChildren(new Option(allLabel,'All'));
+   values.forEach(value=>select.add(new Option(value,value)));
+   select.value=values.includes(current)?current:'All';
+  }
+  state.category=$('#atp-type').value;state.vendor=$('#atp-vendor').value;
+  $('#atp-sort').value=state.sort;
+ }
+ function sortedPlugins(){
+  const [field,direction]=state.sort.split('-'),sign=direction==='desc'?-1:1;
+  const key=plugin=>field==='type'?plugin.category:field==='vendor'?(plugin.vendor||'Not specified'):plugin.name;
+  return [...state.plugins].sort((a,b)=>sign*collator.compare(key(a),key(b))||collator.compare(a.name,b.name));
+ }
  function filter(){
   let shown=0;
   $$('.atp-plugin').forEach(card=>{
-   const visible=(state.category==='All'||state.category===card.dataset.category)&&card.dataset.search.includes(state.query.toLowerCase());
+   const visible=(state.category==='All'||state.category===card.dataset.category)&&(state.vendor==='All'||state.vendor===card.dataset.vendor)&&card.dataset.search.includes(state.query.toLowerCase().trim());
    card.hidden=!visible;if(visible)shown++;
   });
   $('#atp-empty').hidden=shown>0;
-  $('#catalog-count').textContent=shown+' '+(shown===1?'plugin':'plugins');
+  $('#catalog-count').textContent=shown===state.plugins.length?shown+' plugins':shown+' of '+state.plugins.length+' plugins';
+  $('#atp-clear-filters').hidden=state.category==='All'&&state.vendor==='All'&&!state.query;
  }
  function renderCatalog(){
+  populateFilters();
   const fragment=document.createDocumentFragment();
-  state.plugins.forEach(plugin=>{
+  sortedPlugins().forEach(plugin=>{
    const card=document.createElement('a');
    card.className='atp-plugin';card.href='#/plugins/'+plugin.slug;
    card.dataset.category=plugin.category;
-   card.dataset.search=[plugin.name,plugin.category,plugin.inspiration].join(' ').toLowerCase();
-   card.innerHTML='<span class="atp-plugin-image"><img></span><span class="atp-plugin-meta"><span></span><span class="atp-free">Free / VST3</span></span><span class="atp-plugin-tail"><h3></h3><span aria-hidden="true">↗</span></span><p></p>';
+   card.dataset.vendor=plugin.vendor||'Not specified';
+   card.dataset.search=[plugin.name,plugin.category,plugin.inspiration,plugin.vendor].join(' ').toLowerCase();
+   card.setAttribute('aria-label',plugin.name+'. Type: '+plugin.category+'. Original vendor: '+(plugin.vendor||'Not specified')+'. Inspired by '+plugin.inspiration+'.');
+   card.innerHTML='<span class="atp-plugin-image"><img></span><span class="atp-plugin-meta"><span class="atp-plugin-type"></span><span class="atp-free">Free / VST3</span></span><span class="atp-plugin-tail"><h3></h3><span class="atp-plugin-arrow" aria-hidden="true">↗</span></span><p class="atp-plugin-summary"></p><span class="atp-plugin-vendor"><span class="atp-vendor-label">Original vendor: </span><span data-vendor-name></span></span><span class="atp-plugin-inspiration"></span>';
    const image=card.querySelector('img');image.src=screenshot(plugin);image.alt=plugin.name+' editor';image.loading='lazy';
    card.querySelector('.atp-plugin-meta > span').textContent=plugin.category;
    card.querySelector('h3').textContent=plugin.name;
    card.querySelector('p').textContent=curated[plugin.slug]||'Inspired by '+plugin.inspiration+'.';
+   card.querySelector('[data-vendor-name]').textContent=plugin.vendor||'Not specified';
+   card.querySelector('.atp-plugin-inspiration').textContent=plugin.inspiration;
    fragment.append(card);
   });
-  $('#atp-grid').replaceChildren(fragment);filter();
+  $('#atp-grid').replaceChildren(fragment);setView(state.view);filter();
   const featured=state.plugins.find(plugin=>plugin.slug==='sie-q')||state.plugins[0];
   if(featured)$$('[data-image="Sie-Q"]').forEach(image=>image.src=screenshot(featured));
  }
@@ -498,8 +606,9 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const page=event.target.closest('[data-page]');
   if(page){location.hash=page.dataset.page==='about'?'#/about':page.dataset.page==='detail'?'#/plugins/sie-q':'#/';return;}
   const tab=event.target.closest('[data-tab]');if(tab){showTab(tab.dataset.tab);return;}
-  const filterButton=event.target.closest('[data-category]');
-  if(filterButton){state.category=filterButton.dataset.category;$$('[data-category]').forEach(button=>button.setAttribute('aria-pressed',String(button===filterButton)));filter();}
+  const viewButton=event.target.closest('[data-view]');
+  if(viewButton){setView(viewButton.dataset.view);savePreferences();return;}
+  if(event.target.closest('#atp-clear-filters')){state.category='All';state.vendor='All';state.query='';$('#atp-search').value='';$('#atp-type').value='All';$('#atp-vendor').value='All';filter();}
  });
  $('.atp-detail-tabs').addEventListener('keydown',event=>{
   const buttons=$$('[data-tab]'),index=buttons.indexOf(event.target);if(index<0)return;
@@ -508,12 +617,14 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   event.preventDefault();showTab(buttons[next].dataset.tab);buttons[next].focus();
  });
  $('#atp-search').addEventListener('input',event=>{state.query=event.target.value;filter();});
+ $('#atp-type').addEventListener('change',event=>{state.category=event.target.value;filter();});
+ $('#atp-vendor').addEventListener('change',event=>{state.vendor=event.target.value;filter();});
+ $('#atp-sort').addEventListener('change',event=>{state.sort=event.target.value;renderCatalog();savePreferences();});
  window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0,behavior:'instant'});});
  async function start(){
   try{
    const snapshot=fallback||await (await fetch('catalog.json')).json();state.plugins=snapshot.plugins;
    if(!state.plugins.length)throw new Error('Empty catalog');
-   const modulation=document.createElement('button');modulation.type='button';modulation.className='atp-filter cursor-interaction';modulation.dataset.category='Modulation';modulation.setAttribute('aria-pressed','false');modulation.textContent='Modulation';$('.atp-filters').append(modulation);
    renderCatalog();route();refreshCatalog();
   }catch{status('The catalog could not load. Please visit the repository for downloads.');}
  }
