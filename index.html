@@ -250,10 +250,12 @@ body {margin:0;background:#0e1014;}
  #atp-preview .atp-search input {font-size:16px;}
  #atp-preview .atp-filter {min-height:44px;}
 }
-#atp-preview .atp-catalog-controls {display:grid;grid-template-columns:minmax(200px,1fr) 140px 180px auto;grid-template-areas:"search type sort view";align-items:end;gap:12px;border-top:1px solid var(--atp-line);border-bottom:1px solid var(--atp-line);padding:16px 0;margin-bottom:16px;}
+#atp-preview .atp-catalog-controls {display:grid;grid-template-columns:minmax(200px,1fr) 120px 140px 110px 160px auto;grid-template-areas:"search type os format sort view";align-items:end;gap:12px;border-top:1px solid var(--atp-line);border-bottom:1px solid var(--atp-line);padding:16px 0;margin-bottom:16px;}
 #atp-preview .atp-catalog-field {display:flex;flex-direction:column;gap:5px;min-width:0;font-size:11px;color:var(--atp-muted);}
 #atp-preview .atp-catalog-search {grid-area:search;}
 #atp-preview .atp-catalog-type {grid-area:type;}
+#atp-preview .atp-catalog-os {grid-area:os;}
+#atp-preview .atp-catalog-format {grid-area:format;}
 #atp-preview .atp-catalog-sort {grid-area:sort;}
 #atp-preview .atp-catalog-field input,#atp-preview .atp-catalog-field select {width:100%;min-width:0;min-height:40px;padding:8px 9px;border:1px solid var(--atp-line);border-radius:var(--atp-radius);background:var(--atp-surface);color:var(--atp-ink);font:13px/1.4 Arial,Helvetica,sans-serif;}
 #atp-preview .atp-catalog-field input::placeholder {color:var(--atp-muted);}
@@ -284,7 +286,7 @@ body {margin:0;background:#0e1014;}
 #atp-preview[data-catalog-view="list"] .atp-plugin-formats {grid-column:5;white-space:nowrap;}
 #atp-preview[data-catalog-view="list"] .atp-platform-other {font-size:11px;}
 @media(max-width:1000px){
- #atp-preview .atp-catalog-controls {grid-template-columns:repeat(4,minmax(0,1fr));grid-template-areas:"search search search view" "type type sort sort";}
+ #atp-preview .atp-catalog-controls {grid-template-columns:repeat(4,minmax(0,1fr));grid-template-areas:"search search search view" "type os format sort";}
  #atp-preview .atp-view-switch {justify-self:end;}
  #atp-preview .atp-list-heading,#atp-preview[data-catalog-view="list"] .atp-plugin {grid-template-columns:minmax(140px,1.2fr) 80px minmax(140px,1.3fr) 110px 65px;gap:12px;}
 }
@@ -299,7 +301,7 @@ body {margin:0;background:#0e1014;}
  #atp-preview[data-catalog-view="list"] .atp-compatibility-label {display:inline;}
 }
 @media(max-width:540px){
- #atp-preview .atp-catalog-controls {grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"search search" "type sort" "view view";gap:10px;}
+ #atp-preview .atp-catalog-controls {grid-template-columns:repeat(2,minmax(0,1fr));grid-template-areas:"search search" "type os" "format sort" "view view";gap:10px;}
  #atp-preview .atp-catalog-field input,#atp-preview .atp-catalog-field select {min-height:44px;font-size:16px;}
  #atp-preview .atp-view-switch button {min-height:42px;min-width:55px;}
  #atp-preview .atp-list-heading {display:none;}
@@ -451,10 +453,16 @@ body {margin:0;background:#0e1014;}
    <section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Plugin downloads</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
     <div class="atp-catalog-controls" aria-label="Browse the catalog">
  <label class="atp-catalog-field atp-catalog-search">Search
-  <input type="search" id="atp-search" aria-label="Search plugins" placeholder="Name or inspiration">
+  <input type="search" id="atp-search" aria-label="Search plugins" placeholder="Search all fields">
  </label>
  <label class="atp-catalog-field atp-catalog-type">Type
   <select id="atp-type" aria-label="Plugin type"><option value="All">All types</option></select>
+ </label>
+ <label class="atp-catalog-field atp-catalog-os">OS compatibility
+  <select id="atp-os" aria-label="OS compatibility"><option value="All">All operating systems</option></select>
+ </label>
+ <label class="atp-catalog-field atp-catalog-format">Format
+  <select id="atp-format" aria-label="Plugin format"><option value="All">All formats</option></select>
  </label>
  <label class="atp-catalog-field atp-catalog-sort">Sort by
   <select id="atp-sort" aria-label="Sort plugins">
@@ -783,7 +791,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  const $$=selector=>[...root.querySelectorAll(selector)];
  const bundled=document.getElementById('release-data');
  const fallback=bundled?JSON.parse(bundled.textContent):null;
- const state={plugins:[],category:'All',query:'',view:'list',sort:'updated-desc',lastUploadAt:null,current:null,request:0};
+ const state={plugins:[],category:'All',os:'All',format:'All',query:'',view:'list',sort:'updated-desc',lastUploadAt:null,current:null,request:0};
  const collator=new Intl.Collator('en',{numeric:true,sensitivity:'base'});
  try {
   const saved=JSON.parse(localStorage.getItem('alltheplugins.catalog')||'{}');
@@ -1092,12 +1100,15 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
  function populateFilters(){
   const types=[...new Set(state.plugins.map(plugin=>plugin.category))].sort(collator.compare);
-  for(const [selector,values,allLabel,current] of [['#atp-type',types,'All types',state.category]]){
+  const platforms=[...new Set(state.plugins.flatMap(plugin=>compatibility(plugin).platforms))].sort(collator.compare);
+  const formats=[...new Set(state.plugins.flatMap(plugin=>compatibility(plugin).formats))].sort(collator.compare);
+  for(const [selector,values,allLabel,current] of [['#atp-type',types,'All types',state.category],['#atp-os',platforms,'All systems',state.os],['#atp-format',formats,'All formats',state.format]]){
    const select=$(selector);select.replaceChildren(new Option(allLabel,'All'));
    values.forEach(value=>select.add(new Option(value,value)));
    select.value=values.includes(current)?current:'All';
   }
   state.category=$('#atp-type').value;
+  state.os=$('#atp-os').value;state.format=$('#atp-format').value;
   $('#atp-sort').value=state.sort;
  }
  function sortedPlugins(){
@@ -1118,13 +1129,19 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
  function filter(){
   let shown=0;
+  const terms=state.query.toLowerCase().trim().split(/\s+/).filter(Boolean);
   $$('.atp-plugin').forEach(card=>{
-   const visible=(state.category==='All'||state.category===card.dataset.category)&&card.dataset.search.includes(state.query.toLowerCase().trim());
+   const matchesDownload=(state.os==='All'&&state.format==='All')||JSON.parse(card.dataset.downloads).some(file=>(state.os==='All'||file.platform===state.os)&&(state.format==='All'||file.formats.includes(state.format)));
+   const visible=(state.category==='All'||state.category===card.dataset.category)&&matchesDownload&&terms.every(term=>card.dataset.search.includes(term));
    card.hidden=!visible;if(visible)shown++;
   });
   $('#atp-empty').hidden=shown>0;
   $('#catalog-count').textContent=shown===state.plugins.length?shown+' plugins':shown+' of '+state.plugins.length+' plugins';
-  $('#atp-clear-filters').hidden=state.category==='All'&&!state.query;
+  $('#atp-clear-filters').hidden=state.category==='All'&&state.os==='All'&&state.format==='All'&&!state.query;
+ }
+ function resetFilters(category='All'){
+  state.category=category;state.os='All';state.format='All';state.query='';
+  $('#atp-search').value='';$('#atp-type').value=category;$('#atp-os').value='All';$('#atp-format').value='All';filter();
  }
  function withPublishedDownloads(plugin,source,saved=false){
   return {...plugin,name:plugin.name.replace(/^ATP\s+/i,''),releaseVersion:plugin.releaseVersion||'v1.0',downloads:source?publishedDownloads(plugin,source,saved):[]};
@@ -1162,8 +1179,9 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const card=document.createElement('a');
    card.className='atp-plugin';card.href='#/plugins/'+plugin.slug;
    card.dataset.category=plugin.category;card.dataset.doc=plugin.doc;
-   card.dataset.search=[plugin.name,plugin.category,plugin.inspiration].join(' ').toLowerCase();
    const available=compatibility(plugin);
+   card.dataset.search=[plugin.name,publicReleaseVersion(plugin),plugin.category,plugin.inspiration||'Not specified',plugin.summary,plugin.description,...available.platforms,...available.formats,available.platforms.includes('macOS')?'Mac Apple':''].join(' ').toLowerCase();
+   card.dataset.downloads=JSON.stringify((plugin.downloads||[]).map(({platform,formats})=>({platform,formats})));
    card.setAttribute('aria-label',plugin.name+'. Type: '+plugin.category+'.'+(plugin.inspiration?' Inspired by '+plugin.inspiration+'.':'')+' OS compatibility: '+(available.platforms.join(', ')||'No published downloads')+'. Format: '+(available.formats.join(', ')||'No published downloads')+'.');
    card.innerHTML='<span class="atp-plugin-image"><img></span><span class="atp-plugin-meta"><span class="atp-plugin-type"></span></span><span class="atp-plugin-tail"><h3></h3></span><p class="atp-plugin-summary"></p><span class="atp-plugin-inspiration"><span class="atp-inspiration-label">Inspired by: </span><span data-inspiration-name></span></span><span class="atp-plugin-platforms"><span class="atp-compatibility-label">OS:</span></span><span class="atp-plugin-formats"><span class="atp-compatibility-label">Format:</span><span data-published-formats></span></span>';
    const image=card.querySelector('img');image.src=screenshot(plugin);image.alt=plugin.name+' editor';image.loading='lazy';card.querySelector('.atp-plugin-image').hidden=!plugin.image;
@@ -1273,14 +1291,14 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
 
  root.addEventListener('click',event=>{
-  if(event.target.closest('[data-detail-all]')){state.category='All';state.query='';$('#atp-search').value='';$('#atp-type').value='All';filter();}
-  if(event.target.closest('[data-detail-category]')&&state.current){state.category=state.current.category;state.query='';$('#atp-search').value='';$('#atp-type').value=state.category;filter();location.hash='#/';return;}
+  if(event.target.closest('[data-detail-all]'))resetFilters();
+  if(event.target.closest('[data-detail-category]')&&state.current){resetFilters(state.current.category);location.hash='#/';return;}
   const page=event.target.closest('[data-page]');
   if(page){location.hash=page.dataset.page==='about'?'#/about':'#/';return;}
   const tab=event.target.closest('[data-tab]');if(tab){showTab(tab.dataset.tab);return;}
   const viewButton=event.target.closest('[data-view]');
   if(viewButton){setView(viewButton.dataset.view);savePreferences();return;}
-  if(event.target.closest('#atp-clear-filters')){state.category='All';state.query='';$('#atp-search').value='';$('#atp-type').value='All';filter();}
+  if(event.target.closest('#atp-clear-filters'))resetFilters();
  });
  $('.atp-detail-tabs').addEventListener('keydown',event=>{
   const buttons=$$('[data-tab]'),index=buttons.indexOf(event.target);if(index<0)return;
@@ -1290,6 +1308,8 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  });
  $('#atp-search').addEventListener('input',event=>{state.query=event.target.value;filter();});
  $('#atp-type').addEventListener('change',event=>{state.category=event.target.value;filter();});
+ $('#atp-os').addEventListener('change',event=>{state.os=event.target.value;filter();});
+ $('#atp-format').addEventListener('change',event=>{state.format=event.target.value;filter();});
  $('#atp-sort').addEventListener('change',event=>{state.sort=event.target.value;renderCatalog();savePreferences();});
  window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0,behavior:'instant'});});
  async function start(){
