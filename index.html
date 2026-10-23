@@ -916,6 +916,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   $('.atp-detail-image img').src=screenshot(plugin);
   $('.atp-detail-image img').alt=plugin.name+' editor';
   $$('.atp-specs dd').forEach((entry,index)=>entry.textContent=[plugin.category,'See downloads','See downloads','See requirements',plugin.releaseVersion||'v1.0','See license'][index]);
+  $('[data-release-version]').parentElement.hidden=!fallback?.documents?.[plugin.doc];
   renderDownloads(plugin,fallback?.documents?.[plugin.doc]||'',true);
   $('.atp-specs [data-plugin-attribution]').textContent=attribution(plugin);$('.atp-specs [data-plugin-attribution]').hidden=!attribution(plugin);
   $('.atp-specs > a').href=REPO+'/blob/main/'+plugin.doc;
@@ -927,6 +928,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    if(title){plugin.name=title[1].replace(/^ATP\s+/i,'');plugin.version=title[2];$('#plugin-title').textContent=plugin.name;$('.atp-detail-top .atp-eyebrow').textContent=plugin.category;}
    plugin.releaseVersion=ATPCatalog.releaseVersion(source,plugin.releaseVersion||'v1.0');
    $('[data-release-version]').textContent=plugin.releaseVersion;
+   $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
    renderDownloads(plugin,source,saved);
    const description=plugin.summary||plugin.description||'';
    const installation=sectionBody(source,'Install and use');
