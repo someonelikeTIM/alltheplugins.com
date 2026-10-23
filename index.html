@@ -622,7 +622,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   return [...entries.values()];
  }
  function category(value){
-  if(/compress|limiter|de.ess|dynamics|transient|leveling|levelling/i.test(value))return 'Dynamics';
+  if(/compress|limiter|de.ess|dynamics|transient|leveling|levelling|\bgat(?:e|ing)\b/i.test(value))return 'Dynamics';
   if(/\beq\b|equaliz|equalis|high.pass|low.pass|shelv|shelf|tilt|bass.shaping filter|sub.bass filter/i.test(value))return 'EQ';
   if(/saturat|preamp|tube|drive|coloration|colouration/i.test(value))return 'Color';
   if(/modulat|tremolo|pitch|detune|chorus|flanger|vibrato|glide/i.test(value))return 'Modulation';
