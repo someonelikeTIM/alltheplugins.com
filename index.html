@@ -407,7 +407,7 @@ body {margin:0;background:#0e1014;}
   <main id="atp-home">
    <section class="atp-release-summary" aria-label="Available plugins and latest upload">
  <div class="atp-release-total">
-  <strong id="atp-release-total" aria-live="polite">26</strong>
+  <strong id="atp-release-total" aria-live="polite" aria-busy="true">0</strong>
   <div><span class="atp-release-label">FREE plugins</span><p>The collection keeps growing. Check back for new releases.</p></div>
  </div>
  <p class="atp-release-updated">Last plugin upload<br><time id="atp-last-upload">2026-10-22</time></p>
@@ -873,12 +873,12 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const motion=window.matchMedia('(prefers-reduced-motion: reduce)');
   const readable=document.createElement('span'),reel=document.createElement('span');
   readable.className='atp-counter-readable';reel.className='atp-counter-reel';reel.setAttribute('aria-hidden','true');
-  element.setAttribute('aria-atomic','true');element.replaceChildren(readable,reel);
+  element.setAttribute('aria-atomic','true');element.setAttribute('aria-busy','true');element.replaceChildren(readable,reel);
   let target=null,shown=0,played=false,visible=false,animation=null,track=null,values=[],introDeadline=0;
   function stop(){if(animation){const previous=animation;animation=null;previous.cancel();}}
   function still(count){
    stop();shown=count;track=null;reel.textContent=format.format(count);
-   reel.style.minWidth=format.format(count).length+'ch';
+   reel.style.minWidth=Math.max(2,format.format(count).length)+'ch';
   }
   function current(){
    if(!animation||!track)return shown;
@@ -905,7 +905,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   }
   function set(count){
    if(!Number.isSafeInteger(count)||count<0||target===count)return;
-   const from=current();target=count;readable.textContent=format.format(count);
+   const from=current();target=count;element.setAttribute('aria-busy','false');readable.textContent=format.format(count);
    if(played&&visible)roll(from,count,Math.max(650,introDeadline-performance.now()));else still(count);
   }
   function reveal(){
@@ -915,13 +915,20 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   function hide(){visible=false;introDeadline=0;if(target!==null)still(target);}
   function preferenceChanged(){if(motion.matches&&target!==null)still(target);}
   if(typeof motion.addEventListener==='function')motion.addEventListener('change',preferenceChanged);
+  still(0);
   return {set,reveal,hide};
  }
 
  const releaseCounter=createReleaseCounter($('#atp-release-total'));
+ let releaseCount=null;
+ function publishReleaseCount(count){
+  if(!Number.isSafeInteger(count)||count<1)return;
+  releaseCount=count;releaseCounter.set(count);
+  if(!$('#atp-home').hidden)releaseCounter.reveal();
+ }
  function updateReleaseSummary(){
   const time=$('#atp-last-upload');
-  if(state.plugins.length)releaseCounter.set(state.plugins.length);
+  if(releaseCount!==null)releaseCounter.set(releaseCount);
   if(!state.lastUploadAt||!Number.isFinite(Date.parse(state.lastUploadAt))){time.textContent='Date unavailable';time.removeAttribute('datetime');return;}
   const date=new Date(state.lastUploadAt);
   time.dateTime=date.toISOString();
@@ -1162,7 +1169,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const segments=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean);
   const page=segments[0]==='about'?'about':segments[0]==='plugins'?'detail':'home';
   $('#atp-home').hidden=page!=='home';$('#atp-about-page').hidden=page!=='about';$('#atp-detail').hidden=page!=='detail';
-  if(page==='home'){releaseCounter.reveal();updateNewBadges();}else releaseCounter.hide();
+  if(page==='home'){if(releaseCount!==null)releaseCounter.reveal();updateNewBadges();}else releaseCounter.hide();
   $$('.atp-nav [data-page]').forEach(button=>{const active=button.dataset.page===(page==='about'?'about':'home');button.classList.toggle('atp-current',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
   if(page==='detail'){
    const plugin=state.plugins.find(item=>item.slug===segments[1]);
@@ -1176,6 +1183,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const revision=Date.now(),text=await fetchText(RAW+'README.md?catalog='+revision);
    const entries=ATPCatalog.parseIndex(text,{baseUrl:RAW+'README.md'}),updated=[];let incomplete=false;
    if(!entries.length)throw new Error('Empty release index');
+   publishReleaseCount(entries.length);
    for(let offset=0;offset<entries.length;offset+=6){
     const batch=await Promise.all(entries.slice(offset,offset+6).map(async entry=>{
      try{
@@ -1192,7 +1200,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    state.plugins=updated;root.dataset.catalogSource='repository';renderCatalog();if(location.hash.startsWith('#/plugins/'))route();
    status(incomplete?'The catalog is current; some plugin details could not be refreshed from GitHub.':'');
   }catch{status('Showing a saved catalog because GitHub could not be refreshed. Names and downloads may be out of date.');}
-  finally{refreshUploadDate();refreshPluginActivity();}
+  finally{if(releaseCount===null)publishReleaseCount(state.plugins.length);refreshUploadDate();refreshPluginActivity();}
  }
 
  root.addEventListener('click',event=>{
