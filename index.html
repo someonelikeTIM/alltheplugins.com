@@ -959,7 +959,6 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const usage=table?installation.slice(installation.indexOf(table)+table.length).trim():installation;
    const overview=$('#atp-panel-overview');
    setMarkdown(overview,usage||'See the Controls and Installation tabs for this plugin’s operating instructions.');
-   const credit=document.createElement('p');credit.className='atp-note';credit.textContent=attribution(plugin);if(credit.textContent)overview.append(credit);
    setMarkdown($('#atp-panel-controls'),'## Controls\n\n'+(table||'See the usage notes on the Overview tab.'));
    setMarkdown($('#atp-panel-install'),installationFor(plugin));
    setMarkdown($('#atp-panel-license'),'## License & notices\n\n'+license);emphasizeLicense();
