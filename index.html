@@ -327,7 +327,6 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-detail-sidebar .atp-specs dt {font-size:10px;}
 #atp-preview .atp-detail-sidebar .atp-specs dd {text-align:left;font-size:11px;}
 #atp-preview .atp-detail-sidebar .atp-specs .atp-note {margin:9px 0 5px;line-height:1.45;}
-#atp-preview .atp-detail-sidebar .atp-specs > a {font-size:11px;}
 #atp-preview .atp-detail-content {grid-area:content;min-width:0;}
 #atp-preview .atp-detail-content .atp-detail-layout {display:block;}
 #atp-preview .atp-detail-top p:not(.atp-eyebrow) {max-width:650px;}
@@ -358,7 +357,7 @@ body {margin:0;background:#0e1014;}
  <div class="atp-wrap">
   <header class="atp-header">
    <button type="button" class="atp-logo cursor-interaction" data-page="home" aria-label="alltheplugins.com home"><span class="atp-mark" aria-hidden="true"><b></b><b></b><b></b></span><span class="atp-wordmark">alltheplugins<span>.com</span></span></button>
-   <nav class="atp-nav" aria-label="Main navigation"><button type="button" class="cursor-interaction" data-page="home">Plugins</button><button type="button" class="atp-about atp-current cursor-interaction" data-page="about" aria-current="page">About</button><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">GitHub</a></nav>
+   <nav class="atp-nav" aria-label="Main navigation"><button type="button" class="cursor-interaction" data-page="home">Plugins</button><button type="button" class="atp-about atp-current cursor-interaction" data-page="about" aria-current="page">About</button></nav>
   </header>
   <main id="atp-home">
    <section class="atp-release-summary" aria-label="Available plugins and latest upload">
@@ -420,7 +419,7 @@ body {margin:0;background:#0e1014;}
      <div class="atp-download-heading"><h2>Downloads</h2></div>
      <div id="atp-download-files" aria-live="polite"><p class="atp-file-note">Loading downloads…</p></div>
     </aside>
-    <aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd></dd></div><div><dt>Format</dt><dd></dd></div><div><dt>Platform</dt><dd></dd></div><div><dt>Channels</dt><dd></dd></div><div><dt>Version</dt><dd data-release-version></dd></div><div><dt>Binary license</dt><dd></dd></div></dl><p class="atp-note"><span data-plugin-attribution></span></p><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">View on GitHub</a></aside>
+    <aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd></dd></div><div><dt>Format</dt><dd></dd></div><div><dt>Platform</dt><dd></dd></div><div><dt>Channels</dt><dd></dd></div><div><dt>Version</dt><dd data-release-version></dd></div><div><dt>Binary license</dt><dd></dd></div></dl><p class="atp-note"><span data-plugin-attribution></span></p></aside>
     </div>
     <div class="atp-detail-content">
    <div class="atp-detail-tabs" role="tablist" aria-label="Plugin information"><button type="button" role="tab" id="atp-tab-overview" aria-controls="atp-panel-overview" aria-selected="true" data-tab="overview">Overview</button><button type="button" role="tab" id="atp-tab-controls" aria-controls="atp-panel-controls" aria-selected="false" data-tab="controls">Controls</button><button type="button" role="tab" id="atp-tab-install" aria-controls="atp-panel-install" aria-selected="false" data-tab="install">Installation</button><button type="button" role="tab" id="atp-tab-license" aria-controls="atp-panel-license" aria-selected="false" data-tab="license">License</button></div>
@@ -706,7 +705,6 @@ if(__exports != exports)module.exports = exports;return module.exports}));
 (() => {
  'use strict';
  const RAW='https://raw.githubusercontent.com/someonelikeTIM/all-the-plugins/main/';
- const REPO='https://github.com/someonelikeTIM/all-the-plugins';
  const root=document.getElementById('atp-preview');
  const $=selector=>root.querySelector(selector);
  const $$=selector=>[...root.querySelectorAll(selector)];
@@ -941,7 +939,6 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   $('[data-release-version]').parentElement.hidden=!fallback?.documents?.[plugin.doc];
   renderDownloads(plugin,fallback?.documents?.[plugin.doc]||'',true);
   $('.atp-specs [data-plugin-attribution]').textContent=attribution(plugin);$('.atp-specs [data-plugin-attribution]').hidden=!attribution(plugin);
-  $('.atp-specs > a').href=REPO+'/blob/main/'+plugin.doc;
   for(const panel of $$('[role="tabpanel"]')){panel.replaceChildren();const loading=document.createElement('p');loading.className='atp-loading';loading.textContent='Loading plugin documentation…';panel.append(loading);}
   showTab('overview');
   try{
@@ -969,7 +966,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   }catch{
    if(request!==state.request)return;
    const panel=$('#atp-panel-overview');panel.replaceChildren();
-   const p=document.createElement('p');p.className='atp-error';p.textContent='The documentation could not load. You can still view this plugin on GitHub.';panel.append(p);
+   const p=document.createElement('p');p.className='atp-error';p.textContent='The documentation could not load. Please reload this page to try again.';panel.append(p);
    for(const tab of ['controls','install','license'])$('#atp-panel-'+tab).replaceChildren(p.cloneNode(true));
   }
  }
