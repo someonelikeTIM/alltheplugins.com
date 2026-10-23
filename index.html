@@ -350,6 +350,44 @@ body {margin:0;background:#0e1014;}
  #atp-preview .atp-detail-tabs {width:100%;}
  #atp-preview .atp-detail-top {padding-bottom:24px;}
 }
+
+/* About: a personal introduction alongside one continuous reading column. */
+#atp-preview .atp-about-layout {display:grid;grid-template-columns:minmax(280px,390px) minmax(0,620px);justify-content:space-between;gap:64px;padding:64px 0 14px;align-items:start;}
+#atp-preview .atp-about-aside {position:sticky;top:36px;}
+#atp-preview .atp-about-aside .atp-eyebrow {margin-bottom:20px;}
+#atp-preview .atp-about-aside h1 {font:400 clamp(42px,4.2vw,58px)/1.08 var(--atp-display);letter-spacing:-1.7px;margin:0;}
+#atp-preview .atp-about-deck {max-width:300px;margin:24px 0 16px;color:var(--atp-muted);font-size:14px;line-height:1.75;}
+#atp-preview .atp-about-reading {min-width:0;}
+#atp-preview .atp-about-reading h2 {font:400 32px/1.2 var(--atp-display);letter-spacing:-.65px;margin:0 0 20px;}
+#atp-preview .atp-about-reading p {font-size:14px;line-height:1.85;color:var(--atp-muted);margin:0;}
+#atp-preview .atp-about-letter p + p {margin-top:16px;}
+#atp-preview .atp-about-values {margin-top:32px;border-top:1px solid var(--atp-line);}
+#atp-preview .atp-about-value {display:grid;grid-template-columns:125px minmax(0,1fr);gap:24px;padding:22px 0;border-bottom:1px solid var(--atp-line);}
+#atp-preview .atp-about-reading h3 {font-size:14px;font-weight:500;line-height:1.6;margin:0;}
+#atp-preview .atp-about-value p {font-size:13px;line-height:1.75;}
+#atp-preview .atp-about-reading a {color:var(--atp-accent);text-decoration:underline;text-underline-offset:3px;}
+#atp-preview .atp-about-details {padding-top:32px;}
+#atp-preview .atp-about-details > h2 {font:500 17px/1.4 Arial,Helvetica,sans-serif;letter-spacing:-.2px;margin:0 0 24px;}
+#atp-preview .atp-about-answer + .atp-about-answer {margin-top:22px;}
+#atp-preview .atp-about-answer h3 {margin-bottom:6px;}
+#atp-preview .atp-about-answer p {font-size:13px;line-height:1.75;}
+@media(max-width:1000px){
+ #atp-preview .atp-about-layout {grid-template-columns:minmax(250px,.9fr) minmax(0,1.3fr);gap:44px;padding-top:48px;}
+ #atp-preview .atp-about-aside h1 {font-size:44px;letter-spacing:-1.2px;}
+ #atp-preview .atp-about-value {grid-template-columns:1fr;gap:8px;padding:18px 0;}
+}
+@media(max-width:700px){
+ #atp-preview .atp-about-layout {grid-template-columns:1fr;gap:32px;padding:32px 0 0;}
+ #atp-preview .atp-about-aside {position:static;}
+ #atp-preview .atp-about-aside .atp-eyebrow {margin-bottom:14px;}
+ #atp-preview .atp-about-aside h1 {font-size:clamp(38px,8vw,48px);}
+ #atp-preview .atp-about-deck {max-width:440px;margin:18px 0 8px;}
+ #atp-preview .atp-about-letter {border-top:1px solid var(--atp-line);padding-top:26px;}
+ #atp-preview .atp-about-reading h2 {font-size:28px;}
+ #atp-preview .atp-about-values {margin-top:26px;}
+ #atp-preview .atp-about-details {padding-top:26px;}
+ #atp-preview .atp-about-details > h2 {font-size:17px;}
+}
 </style>
 
 </head><body>
@@ -433,23 +471,32 @@ body {margin:0;background:#0e1014;}
    </div>
   </main>
   <main id="atp-about-page" hidden>
-   <section class="atp-about-hero"><div><p class="atp-eyebrow">About alltheplugins.com</p><h1>Why I’m sharing<br>these plugins.</h1></div><p class="atp-about-intro">A growing collection of 100% free, open-source audio plugins.</p></section>
-   <section class="atp-about-story" aria-label="The idea">
- <p class="atp-eyebrow">The idea</p>
- <div>
-  <p>I’m building an open-source collection of high-quality audio plugins that anybody can use to express their musical creativity.</p>
-  <p>This is a personal project, not a company. There’s no commercial or capitalist motive behind it. I’m a software developer and musician, and these plugins are a gift from me to the world. I simply want to share.</p>
- </div>
-</section>
-
-   <section class="atp-principles" aria-label="What I believe"><article class="atp-principle"><span class="atp-number">01 / ACCESS</span><h2>100% free, always.</h2><p>Your creativity should not be locked behind a paywall. I put creative tools in your hands so you can make music, express yourself, and create human art without the cost of entry.</p></article><article class="atp-principle"><span class="atp-number">02 / CREATE</span><h2>Make it yours.</h2><p>My MIT-licensed plugin binaries come with broad permissions to use, modify, and share. Each plugin page includes its full license and required notices.</p></article><article class="atp-principle"><span class="atp-number">03 / CONTRIBUTE</span><h2>Share your work</h2><p>Create without limits. Modify a plugin to match your vibe, or mix and match to spark new ideas. Share what you make and contribute through my <a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">public GitHub repo</a>.</p></article></section>
-   <section class="atp-about-questions" aria-labelledby="atp-questions-heading"><h2 id="atp-questions-heading">Questions and answers</h2><div><details><summary class="cursor-interaction">What do I need to use the plugins?</summary><p>Each plugin page lists its specific requirements, controls, and installation instructions.</p></details><details><summary class="cursor-interaction">What does “inspired by” mean?</summary><p>My plugins are inspired by a plethora of sounds and workflows I’ve encountered in my 20+ years as a music producer and mix engineer.</p><p>All my plugins are original software, inspired by familiar sounds to enable your creativity. I have no affiliation with the vendors of products that inspire them.</p></details><details><summary class="cursor-interaction">Where can I find the source code?</summary><p>To keep things tidy, this site and repo currently contain plugin downloads, but no source code. The source code for all my plugins will be posted in the coming days. I’m getting it ready and want to make sure I present it in a clean, accessible way.</p><p>For early access, email <a href="mailto:fit-plug-surfer@duck.com">fit-plug-surfer@duck.com</a>.</p></details></div></section>
-   <section class="atp-about-downloads" aria-labelledby="atp-about-downloads-title">
- <h2 id="atp-about-downloads-title">Downloads and documentation</h2>
- <p>The catalog links to each plugin’s download, setup instructions, controls, and license.</p>
- <button type="button" class="atp-text-action" data-page="home">Browse downloads</button>
-</section>
-
+   <div class="atp-about-layout">
+    <header class="atp-about-aside">
+     <p class="atp-eyebrow">About the project</p>
+     <h1>Made for music.<br>Shared freely.</h1>
+     <p class="atp-about-deck">Independent audio plugins, built by a musician and shared with anyone who wants to create.</p>
+     <button type="button" class="atp-text-action" data-page="home">Explore the plugins</button>
+    </header>
+    <article class="atp-about-reading" aria-label="About alltheplugins.com">
+     <section class="atp-about-letter" aria-labelledby="atp-about-letter-title">
+      <h2 id="atp-about-letter-title">I simply want to share.</h2>
+      <p>I’m a software developer and musician, building an open-source collection of high-quality audio plugins that anybody can use to express their musical creativity.</p>
+      <p>This is a personal project, not a company. There’s no commercial or capitalist motive behind it. These plugins are a gift from me to the world.</p>
+     </section>
+     <section class="atp-about-values" aria-label="What I believe">
+      <div class="atp-about-value"><h3>Free to use.</h3><p>Your creativity should not be locked behind a paywall. I want to put creative tools in your hands so you can make music, express yourself, and create human art without the cost of entry.</p></div>
+      <div class="atp-about-value"><h3>Make it yours.</h3><p>My MIT-licensed plugin binaries come with broad permissions to use, modify, and share. Each plugin page includes its full license and required notices.</p></div>
+      <div class="atp-about-value"><h3>Pass it on.</h3><p>Modify a plugin to match your workflow, or mix and match to spark new ideas. Share what you make and contribute through the <a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">project repository</a>.</p></div>
+     </section>
+     <section class="atp-about-details" aria-labelledby="atp-about-details-title">
+      <h2 id="atp-about-details-title">A few practical details</h2>
+      <div class="atp-about-answer"><h3>Getting started</h3><p>Each plugin page lists its downloads, specific requirements, controls, and installation instructions. Choose the download for your operating system and plugin format.</p></div>
+      <div class="atp-about-answer"><h3>About the inspirations</h3><p>My plugins are inspired by sounds and workflows I’ve encountered in my 20+ years as a music producer and mix engineer. All my plugins are original software, inspired by familiar sounds to enable your creativity. I have no affiliation with the vendors of products that inspire them.</p></div>
+      <div class="atp-about-answer"><h3>Source code</h3><p>To keep things tidy, this site and the public repository currently contain plugin downloads, but no source code. The source code for all my plugins will be posted in the coming days. I’m getting it ready and want to present it in a clean, accessible way.</p></div>
+     </section>
+    </article>
+   </div>
   </main>
   <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p></div><div><p>alltheplugins.com</p></div></footer>
  </div>
