@@ -319,17 +319,25 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-breadcrumb button {display:inline;padding:4px 0;border:0;background:none;color:inherit;font:inherit;letter-spacing:inherit;text-transform:inherit;cursor:pointer;}
 #atp-preview .atp-breadcrumb button:hover {text-decoration:underline;text-underline-offset:4px;}
 #atp-preview .atp-breadcrumb [aria-current="page"] {color:var(--atp-muted);}
-#atp-preview .atp-detail-sidebar {grid-area:sidebar;display:flex;flex-direction:column;gap:28px;min-width:0;}
-#atp-preview .atp-detail-sidebar .atp-specs {width:100%;}
+#atp-preview .atp-detail-sidebar {grid-area:sidebar;display:flex;flex-direction:column;gap:18px;min-width:0;}
+#atp-preview .atp-detail-sidebar .atp-specs {width:100%;padding-top:10px;}
+#atp-preview .atp-detail-sidebar .atp-specs h3 {margin-bottom:6px;}
+#atp-preview .atp-detail-sidebar .atp-specs dl {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:16px;}
+#atp-preview .atp-detail-sidebar .atp-specs dl div {flex-direction:column;align-items:flex-start;gap:1px;padding:5px 0;}
+#atp-preview .atp-detail-sidebar .atp-specs dt {font-size:10px;}
+#atp-preview .atp-detail-sidebar .atp-specs dd {text-align:left;font-size:11px;}
+#atp-preview .atp-detail-sidebar .atp-specs .atp-note {margin:9px 0 5px;line-height:1.45;}
+#atp-preview .atp-detail-sidebar .atp-specs > a {font-size:11px;}
 #atp-preview .atp-detail-content {grid-area:content;min-width:0;}
 #atp-preview .atp-detail-content .atp-detail-layout {display:block;}
 #atp-preview .atp-detail-top p:not(.atp-eyebrow) {max-width:650px;}
-#atp-preview .atp-detail-showcase {display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-areas:"image sidebar" "content sidebar";grid-template-rows:auto 1fr;gap:0 40px;align-items:start;}
+#atp-preview .atp-detail-showcase {display:grid;grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"image sidebar" "content content";gap:0 32px;align-items:start;}
 #atp-preview .atp-detail-image {grid-area:image;padding:0;min-width:0;background:none;border:0;border-radius:0;}
 #atp-preview .atp-detail-image img {max-width:100%;height:auto;margin:0;box-shadow:none;}
 #atp-preview .atp-download {width:auto;min-width:0;padding:0;flex:none;}
-#atp-preview #atp-download-files {display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-#atp-preview .atp-file-link {display:flex;align-items:center;justify-content:flex-start;min-height:46px;padding:11px 14px;border:1px solid #364967;border-radius:3px;background:#1b2535;color:var(--atp-ink);font-size:13px;line-height:1.5;text-decoration:none;}
+#atp-preview #atp-download-files {display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-top:10px;}
+#atp-preview .atp-download-heading {padding-bottom:8px;}
+#atp-preview .atp-file-link {display:flex;align-items:center;justify-content:center;min-height:40px;padding:7px 8px;border:1px solid #364967;border-radius:3px;background:#1b2535;color:var(--atp-ink);font-size:11px;line-height:1.4;text-align:center;text-decoration:none;}
 #atp-preview .atp-file-link:hover {background:#233149;border-color:var(--atp-accent);}
 #atp-preview .atp-detail-tabs {width:100%;}
 #atp-preview .atp-wordmark span {color:var(--atp-accent);}
@@ -339,6 +347,7 @@ body {margin:0;background:#0e1014;}
 }
 @media(max-width:700px){
  #atp-preview .atp-detail-showcase {grid-template-columns:minmax(0,1fr);grid-template-areas:"image" "sidebar" "content";grid-template-rows:auto;gap:24px;}
+ #atp-preview .atp-file-link {min-height:44px;}
  #atp-preview .atp-detail-tabs {width:100%;}
  #atp-preview .atp-detail-top {padding-bottom:24px;}
 }
@@ -408,7 +417,7 @@ body {margin:0;background:#0e1014;}
     <div class="atp-detail-image"><img alt="Plugin editor"></div>
     <div class="atp-detail-sidebar">
     <aside class="atp-download" aria-label="Plugin downloads">
-     <div class="atp-download-heading"><h2>Downloads</h2><small>Free</small></div>
+     <div class="atp-download-heading"><h2>Downloads</h2></div>
      <div id="atp-download-files" aria-live="polite"><p class="atp-file-note">Loading downloads…</p></div>
     </aside>
     <aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd></dd></div><div><dt>Format</dt><dd></dd></div><div><dt>Platform</dt><dd></dd></div><div><dt>Channels</dt><dd></dd></div><div><dt>Version</dt><dd data-release-version></dd></div><div><dt>Binary license</dt><dd></dd></div></dl><p class="atp-note"><span data-plugin-attribution></span></p><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">View on GitHub</a></aside>
@@ -443,7 +452,7 @@ body {margin:0;background:#0e1014;}
 </section>
 
   </main>
-  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p></div><div><p>alltheplugins.com</p><a href="https://github.com/someonelikeTIM/all-the-plugins" target="_blank" rel="noopener noreferrer">Files on GitHub</a></div></footer>
+  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p></div><div><p>alltheplugins.com</p></div></footer>
  </div>
 </div>
 <noscript><p>Explore the plugin downloads and documentation at <a href="https://github.com/someonelikeTIM/all-the-plugins">the alltheplugins.com catalog on GitHub</a>. Enable JavaScript to browse this site.</p></noscript>
@@ -943,15 +952,13 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    $('[data-release-version]').textContent=plugin.releaseVersion;
    $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
    renderDownloads(plugin,source,saved);
-   const description=plugin.summary||plugin.description||'';
    const installation=sectionBody(source,'Install and use');
    const licenseOffset=source.indexOf('\n# License\n');
    const license=licenseOffset>=0?source.slice(licenseOffset).replace(/^\n# License\n---\s*\n/,''):'';
    const table=installation.match(/(?:^\|.*\|\s*\n)+/m)?.[0]||'';
-   const usage=table?installation.slice(installation.indexOf(table)+table.length).trim():'';
-   const installText=table?installation.slice(0,installation.indexOf(table)).trim():installation;
+   const usage=table?installation.slice(installation.indexOf(table)+table.length).trim():installation;
    const overview=$('#atp-panel-overview');
-   setMarkdown(overview,'## '+plugin.name+'\n\n'+description+'\n\n'+usage);
+   setMarkdown(overview,usage||'See the Controls and Installation tabs for this plugin’s operating instructions.');
    const credit=document.createElement('p');credit.className='atp-note';credit.textContent=attribution(plugin);if(credit.textContent)overview.append(credit);
    setMarkdown($('#atp-panel-controls'),'## Controls\n\n'+(table||'See the usage notes on the Overview tab.'));
    setMarkdown($('#atp-panel-install'),installationFor(plugin));
