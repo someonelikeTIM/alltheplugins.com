@@ -417,6 +417,7 @@ body {margin:0;background:#0e1014;}
 
 #atp-preview .atp-activity-identity {display:flex;align-items:baseline;gap:7px;min-width:0;}
 #atp-preview .atp-activity-version {flex:none;color:var(--atp-muted);font-size:10px;}
+#atp-preview .atp-plugin .atp-plugin-version {margin-left:7px;color:var(--atp-muted);font:400 10px/1.4 Arial,Helvetica,sans-serif;letter-spacing:0;white-space:nowrap;vertical-align:middle;}
 #atp-preview .atp-activity-row[data-kind="UPDATED"] .atp-activity-dot {background:#f2b65b;}
 #atp-preview .atp-plugin .atp-new-badge[data-kind="NEW"] {color:#79d99f;background:#79d99f14;border-color:#79d99f66;box-shadow:0 0 9px #79d99f30;text-shadow:0 0 6px #79d99f33;}
 
@@ -1168,6 +1169,8 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const image=card.querySelector('img');image.src=screenshot(plugin);image.alt=plugin.name+' editor';image.loading='lazy';card.querySelector('.atp-plugin-image').hidden=!plugin.image;
    card.querySelector('.atp-plugin-meta > span').textContent=plugin.category;
    card.querySelector('h3').textContent=plugin.name;
+   const release=publicReleaseVersion(plugin);
+   if(release){const version=document.createElement('span');version.className='atp-plugin-version';version.textContent=release;card.querySelector('h3').append(version);card.setAttribute('aria-label',plugin.name+' '+release+'. '+card.getAttribute('aria-label').slice(plugin.name.length+2));}
    card.querySelector('p').textContent=plugin.summary||plugin.description||(plugin.inspiration?'Inspired by '+plugin.inspiration+'.':'Open for documentation and downloads.');
    card.querySelector('[data-inspiration-name]').textContent=plugin.inspiration||'Not specified';
    renderCompatibility(card,available);
