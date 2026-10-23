@@ -24,7 +24,7 @@
 #atp-preview .atp-mark b { display:block; width:6px; background:var(--atp-accent); height:22px; }
 #atp-preview .atp-mark b:nth-child(2) {height:32px;} #atp-preview .atp-mark b:nth-child(3) {height:15px;}
 #atp-preview .atp-wordmark { font-size:17px; font-weight:700; letter-spacing:-.7px; line-height:1.05; }
-#atp-preview .atp-nav { display:flex; gap:24px; align-items:center; padding-right:70px; }
+#atp-preview .atp-nav { display:flex; gap:24px; align-items:center; }
 #atp-preview .atp-nav button { border:0; background:none; padding:12px 0; }
 #atp-preview .atp-nav .atp-current { color:var(--atp-accent); }
 #atp-preview .atp-eyebrow { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:1.8px; color:var(--atp-accent); margin:0 0 16px; }
@@ -333,11 +333,13 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-detail-showcase {display:grid;grid-template-columns:minmax(0,1fr) 300px;grid-template-areas:"image sidebar" "content content";gap:0 32px;align-items:start;}
 #atp-preview .atp-detail-image {grid-area:image;padding:0;min-width:0;background:none;border:0;border-radius:0;}
 #atp-preview .atp-detail-image img {max-width:100%;height:auto;margin:0;box-shadow:none;}
-#atp-preview .atp-download {width:auto;min-width:0;padding:0;flex:none;}
-#atp-preview #atp-download-files {display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-top:10px;}
-#atp-preview .atp-download-heading {padding-bottom:8px;}
-#atp-preview .atp-file-link {display:flex;align-items:center;justify-content:center;min-height:40px;padding:7px 8px;border:1px solid #364967;border-radius:3px;background:#1b2535;color:var(--atp-ink);font-size:11px;line-height:1.4;text-align:center;text-decoration:none;}
-#atp-preview .atp-file-link:hover {background:#233149;border-color:var(--atp-accent);}
+#atp-preview .atp-download {display:flex;flex-direction:row;align-items:baseline;flex-wrap:wrap;gap:4px 12px;width:auto;min-width:0;padding:0;flex:none;font-size:12px;}
+#atp-preview .atp-download-label {font-weight:500;}
+#atp-preview #atp-download-files {display:flex;align-items:baseline;flex-wrap:wrap;gap:2px 6px;margin:0;}
+#atp-preview .atp-file-link {display:inline-flex;align-items:center;min-height:0;padding:0;border:0;border-radius:0;background:none;color:var(--atp-accent);font-size:12px;line-height:1.7;white-space:nowrap;text-decoration:none;}
+#atp-preview .atp-file-link:hover {background:none;text-decoration:underline;text-underline-offset:3px;}
+#atp-preview .atp-download-separator {color:var(--atp-muted);}
+#atp-preview #atp-download-files .atp-file-note {margin:0;}
 #atp-preview .atp-detail-tabs {width:100%;}
 #atp-preview .atp-wordmark span {color:var(--atp-accent);}
 @media(max-width:900px){
@@ -346,7 +348,6 @@ body {margin:0;background:#0e1014;}
 }
 @media(max-width:700px){
  #atp-preview .atp-detail-showcase {grid-template-columns:minmax(0,1fr);grid-template-areas:"image" "sidebar" "content";grid-template-rows:auto;gap:24px;}
- #atp-preview .atp-file-link {min-height:44px;}
  #atp-preview .atp-detail-tabs {width:100%;}
  #atp-preview .atp-detail-top {padding-bottom:24px;}
 }
@@ -416,7 +417,7 @@ body {margin:0;background:#0e1014;}
     <div class="atp-detail-image"><img alt="Plugin editor"></div>
     <div class="atp-detail-sidebar">
     <aside class="atp-download" aria-label="Plugin downloads">
-     <div class="atp-download-heading"><h2>Downloads</h2></div>
+     <span class="atp-download-label">Download</span>
      <div id="atp-download-files" aria-live="polite"><p class="atp-file-note">Loading downloads…</p></div>
     </aside>
     <aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd></dd></div><div><dt>Format</dt><dd></dd></div><div><dt>Platform</dt><dd></dd></div><div><dt>Channels</dt><dd></dd></div><div><dt>Version</dt><dd data-release-version></dd></div><div><dt>Binary license</dt><dd></dd></div></dl><p class="atp-note"><span data-plugin-attribution></span></p></aside>
@@ -801,7 +802,9 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const platform=file.platform==='macOS'?'Mac':file.platform==='Other'?'':file.platform;
    const label=[platform,file.format].filter(Boolean).join(' ');
    const link=document.createElement('a');link.className='atp-file-link';link.href=file.url;link.target='_blank';link.rel='noopener noreferrer';
-   link.textContent=label;link.setAttribute('aria-label',plugin.name+': download '+label);container.append(link);
+   link.textContent=label;link.setAttribute('aria-label',plugin.name+': download '+label);
+   if(container.childElementCount){const separator=document.createElement('span');separator.className='atp-download-separator';separator.setAttribute('aria-hidden','true');separator.textContent='/';container.append(separator);}
+   container.append(link);
   }
   if(!files.length){const empty=document.createElement('p');empty.className='atp-file-note';empty.textContent='No downloads available yet.';container.append(empty);}
   const specs=$$('.atp-specs dd');
