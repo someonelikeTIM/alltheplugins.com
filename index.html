@@ -91,6 +91,11 @@
 #atp-preview .atp-doc td,#atp-preview .atp-doc th {border-bottom:1px solid var(--atp-line); padding:12px 12px 12px 0; vertical-align:top;}
 #atp-preview .atp-doc td:first-child {width:35%;}
 #atp-preview .atp-doc td:nth-child(2) {color:var(--atp-muted);}
+#atp-preview #atp-panel-controls h2 {font:500 17px/1.4 Arial,Helvetica,sans-serif;letter-spacing:0;}
+#atp-preview #atp-panel-controls .atp-control-notes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 36px;margin-top:28px;}
+#atp-preview #atp-panel-controls .atp-control-notes h3 {margin:0 0 12px;}
+#atp-preview #atp-panel-controls li {margin-bottom:8px;}
+@media(max-width:700px){#atp-preview #atp-panel-controls .atp-control-notes {grid-template-columns:1fr;}}
 #atp-preview .atp-specs {border-top:2px solid var(--atp-accent); padding-top:16px;}
 #atp-preview .atp-specs h3 {font-size:12px; font-weight:500; margin:0 0 15px;}
 #atp-preview .atp-specs dl {margin:0; font-size:12px;}
@@ -1115,7 +1120,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   specs[1].textContent=[...new Set(files.flatMap(file=>file.formats))].join(' / ')||'See downloads';
   specs[2].textContent=[...new Set(files.map(file=>file.platform==='macOS'?'Mac':file.platform==='Other'?'Not specified':file.platform))].join(' / ')||'See downloads';
  }
- function installationFor(plugin,source=''){
+ function installationFor(plugin,source='',notes=[]){
   if(plugin.doc==='ATP-NEEDLE-PRESS.md'){
    const installation=sectionBody(String(source).replace(/\r\n?/g,'\n'),'Install and use');
    const table=installation.match(/(?:^\|.*\|\s*\n)+/m);
@@ -1124,10 +1129,12 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   }
   const files=plugin.downloads||[],steps=[];
   const has=(platform,format)=>files.some(file=>file.platform===platform&&file.formats.includes(format));
-  if(has('Windows','VST3'))steps.push('### Windows VST3\n\n'+(files.some(file=>file.platform==='Windows'&&file.formats.includes('VST3')&&file.kind==='package')?'Extract the download and copy the complete `.vst3` folder':'Copy the downloaded `.vst3` file')+' into `C:\\Program Files\\Common Files\\VST3`.');
-  if(has('macOS','VST3'))steps.push('### Mac VST3\n\nExtract the download and copy the `.vst3` folder into `~/Library/Audio/Plug-Ins/VST3/`.');
-  if(has('macOS','AU'))steps.push('### Mac AU\n\nExtract the download and copy the `.component` folder into `~/Library/Audio/Plug-Ins/Components/`.');
-  return '## Installation\n\n'+steps.join('\n\n')+(steps.length?'\n\nRescan plugins in your audio host.':'Choose an available download above and follow its included instructions.');
+  const routine=notes.filter(note=>/extract|copy|rescan/i.test(note)).join(' ');
+  if(has('Windows','VST3')&&!/LOCALAPPDATA|Program Files|Windows/i.test(routine))steps.push('### Windows VST3\n\n'+(files.some(file=>file.platform==='Windows'&&file.formats.includes('VST3')&&file.kind==='package')?'Extract the download and copy the complete `.vst3` folder':'Copy the downloaded `.vst3` file')+' into `C:\\Program Files\\Common Files\\VST3`.');
+  if(has('macOS','VST3')&&!/(?:Mac|Library)[\s\S]*?(?:\.vst3|VST3)/i.test(routine))steps.push('### Mac VST3\n\nExtract the download and copy the `.vst3` folder into `~/Library/Audio/Plug-Ins/VST3/`.');
+  if(has('macOS','AU')&&!/\.component|Plug-Ins\/Components/i.test(routine))steps.push('### Mac AU\n\nExtract the download and copy the `.component` folder into `~/Library/Audio/Plug-Ins/Components/`.');
+  const content=[...new Set(notes),...steps].join('\n\n');
+  return '## Installation\n\n'+(content||'Choose an available download above and follow its included instructions.')+(steps.length&&!/rescan/i.test(content)?'\n\nRescan plugins in your audio host.':'');
  }
  function sectionBody(source,title){
   const escaped=title.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
@@ -1138,6 +1145,45 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const start=source.search(/^# (?:Install and use|Controls)\s*$/im);if(start<0)return '';
   const end=source.search(/^# License\s*$/im);
   return source.slice(start,end>start?end:source.length).replace(/^# (?:Install and use|Controls)\s*\n---\s*\n/gim,'').trim();
+ }
+ function controlGuide(plugin,source){
+  const tokens=marked.lexer(operatingBody(source).replace(/<!--[\s\S]*?-->/g,''));
+  const tables=tokens.filter(token=>token.type==='table').map(token=>token.raw.trim());
+  const installation=[],groups=new Map(),seen=new Set();let platform='',section='';
+  function add(title,text){
+   text=text.trim();if(!text)return;
+   const key=text.replace(/\s+/g,' ').toLowerCase();if(seen.has(key))return;seen.add(key);
+   if(!groups.has(title))groups.set(title,[]);groups.get(title).push(text);
+  }
+  function note(raw){
+   if(/^!\[[\s\S]*\)$/.test(raw.trim()))return;
+   for(const sentence of raw.trim().split(/(?<=[.!?])\s+(?=[A-Z])/)){
+    if((/\b(?:download|extract|copy|install|rescan|upgrad|replac|dependencies|requirements)\w*\b/i.test(sentence)&&/\b(?:zip|bundle|vst3|component|host|build|runtime|installed|installation|plugin identity)\b/i.test(sentence))||/^Back up .*sessions|^Complete notices follow/i.test(sentence)){
+     installation.push((platform?'**'+platform+':** ':'')+sentence.trim());continue;
+    }
+    const title=platform||/^Mac\b/i.test(sentence)?'Platform notes':section||(/^(?:\*\*)?(?:Defaults?|Initial settings)\b/i.test(sentence)?'Defaults':/\b(?:drag|wheel|click|keys|keyboard|Tab|fine adjustment)\b/i.test(sentence)?'Using the interface':/\b(?:supports?|sample|latency|processing|automation|bypass|Nyquist|buffer|alignment|audio|state)\b/i.test(sentence)?'Audio support and behavior':'Usage notes');
+    add(title,(platform?'**'+platform+':** ':'')+sentence);
+   }
+  }
+  for(const token of tokens){
+   if(token.type==='heading'){platform=/^(?:Mac|macOS|Windows)\b/i.test(token.text)?token.text:'';section=/^(?:Using the interface|Defaults|Audio support|Platform differences)/i.test(token.text)?token.text:'';continue;}
+   if(token.type==='paragraph')note(token.raw);
+   else if(token.type==='list')for(const item of token.items)note(item.text);
+   else if(token.type==='code'||token.type==='blockquote')add('Usage notes',token.raw);
+  }
+  const curated=consolidatedControlNotes[plugin.doc];
+  if(curated&&tables.length>1&&ATPCatalog.releaseVersion(source,'')===curated.version){
+   return {tables:[tables[0]+(curated.rows?'\n'+curated.rows.join('\n'):'')],groups:curated.groups,installation,referenceNote:'Control ranges in the reference table follow the Windows documentation. Mac-specific details are listed below.'};
+  }
+  if(!tables.length&&!groups.size)add('Using the interface','Operating instructions are not available for this plugin yet.');
+  return {tables:[...new Set(tables)],groups:[...groups],installation};
+ }
+ function renderControlGuide(element,guide){
+  element.replaceChildren();
+  if(guide.tables.length){const reference=document.createElement('section');setMarkdown(reference,'## Control reference\n\n'+(guide.referenceNote?guide.referenceNote+'\n\n':'')+guide.tables.join('\n\n'));element.append(reference);}
+  const notes=document.createElement('div');notes.className='atp-control-notes';
+  for(const [title,items] of guide.groups){const section=document.createElement('section');setMarkdown(section,'### '+title+'\n\n'+items.map(item=>'- '+item.replace(/\n/g,'\n  ')).join('\n'));notes.append(section);}
+  element.append(notes);
  }
  async function documentFor(plugin){
   if(cache.has(plugin.doc))return cache.get(plugin.doc);
@@ -1279,6 +1325,151 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   for(const phrase of phrases){const start=text.indexOf(phrase,offset);if(start<0)continue;fragment.append(text.slice(offset,start));const strong=document.createElement('strong');strong.textContent=phrase;fragment.append(strong);offset=start+phrase.length;}
   fragment.append(text.slice(offset));permissions.replaceChildren(fragment);
  }
+ const consolidatedControlNotes={
+  "ATP-PULSE-CARVER.md": {
+    "version": "v1.1",
+    "rows": [
+      "| EDIT / CLOSE | Opens or closes the detailed Shape and Rhythm editors. |"
+    ],
+    "groups": [
+      [
+        "Using the interface",
+        [
+          "Drag or wheel knobs to adjust; double-click to reset.",
+          "Select EDIT to open the Shape and Rhythm editors.",
+          "Left-click or drag to add and move Shape points; right-click removes interior points.",
+          "Click the Rhythm grid to add or remove events.",
+          "Turn Sync off to use manual Tempo and Tap Tempo.",
+          "Use Bars, Beats / Bar, Edit Bar and Grid to navigate and structure the rhythm."
+        ]
+      ],
+      [
+        "Audio support",
+        [
+          "Mono and stereo at 44.1, 48, 88.2, 96, 176.4 and 192 kHz.",
+          "Latency: 45 samples at 44.1/48 kHz, 64 at 88.2/96 kHz, and 128 at 176.4/192 kHz. Mix and host bypass retain dry-path alignment."
+        ]
+      ],
+      [
+        "Mac-specific notes",
+        [
+          "Shape and Rhythm presets recall saved custom patterns. Shape and rhythm edits are saved with the plugin state."
+        ]
+      ]
+    ]
+  },
+  "ATP-DEMON-LOCK-XL.md": {
+    "version": "v1.1",
+    "groups": [
+      [
+        "Using the interface",
+        [
+          "Drag or wheel knobs to adjust; double-click to reset.",
+          "Click Release to switch between Slow and Fast.",
+          "The effect can raise peaks; adjust the level in your host."
+        ]
+      ],
+      [
+        "Defaults",
+        [
+          "Crush and Crunch: 1.0. Mix: 100%.",
+          "Darkness: 20 kHz. Release: Slow.",
+          "Windows host bypass starts off."
+        ]
+      ],
+      [
+        "Windows-specific notes",
+        [
+          "Arrow keys also adjust knobs.",
+          "Mono/stereo 32-bit floating-point audio at 44.1, 48, 88.2, 96, 176.4 and 192 kHz."
+        ]
+      ],
+      [
+        "Mac-specific notes",
+        [
+          "Latency: 63 samples at 44.1/48 kHz, 111 at 88.2/96 kHz, and 205 at 176.4/192 kHz.",
+          "The dry Mix endpoint and host bypass retain that delay alignment."
+        ]
+      ]
+    ]
+  },
+  "ATP-VOCAL-GATEHOUSE.md": {
+    "version": "v1.1",
+    "groups": [
+      [
+        "Using the interface",
+        [
+          "Drag the graph handles to set Open and Close.",
+          "Drag or wheel controls to adjust; double-click to reset."
+        ]
+      ],
+      [
+        "Windows defaults",
+        [
+          "Open/Close: −60 dB. Ratio: 15:1.",
+          "Attack: 5 ms. Release: 50 ms. Wet: 100%.",
+          "Input/Output: 0 dB. Pan: centered. Width: 100%."
+        ]
+      ],
+      [
+        "Windows-specific notes",
+        [
+          "Arrow keys also adjust controls.",
+          "Mono/stereo at 44.1, 48, 88.2, 96, 176.4 and 192 kHz."
+        ]
+      ],
+      [
+        "Mac-specific notes",
+        [
+          "Input/Output use vertical faders; Pan/Width use horizontal sliders.",
+          "Right-click also resets a control.",
+          "The graph shows input history and thresholds; the meters show input, output and gain reduction.",
+          "Reported delay is `round(sample_rate × 0.001) − 1` samples. Bypass paths retain that alignment."
+        ]
+      ]
+    ]
+  },
+  "ATP-PHOTON-CLAMP.md": {
+    "version": "v1.0",
+    "groups": [
+      [
+        "Using the interface",
+        [
+          "Drag or wheel controls to adjust; double-click to restore the declared reset value.",
+          "Click ratios, modes and switches directly.",
+          "Ten main parameters support host automation; additional editor controls are recalled with plugin state (eight additional settings on Mac)."
+        ]
+      ],
+      [
+        "Windows defaults and shortcuts",
+        [
+          "Ratio: 3. Mix: 100%. Auto Gain: on. Oversampling: Off.",
+          "Attack starts at 7 and resets to 10. Release starts and resets at 0.",
+          "Arrow, Home and End keys adjust a focused trim.",
+          "Mono/stereo 32-bit floating-point audio."
+        ]
+      ],
+      [
+        "Mac modes and timing",
+        [
+          "NUKE is 38:1. Click the active S1 or S2 button again to return to Normal.",
+          "Attack/Release use a continuous 0–10 scale, not milliseconds.",
+          "Hold Shift while dragging for fine adjustment.",
+          "Oversampling Off/2x/4x/8x/16x reports 0/62/76/82/84 samples of latency."
+        ]
+      ],
+      [
+        "Mac routing and meters",
+        [
+          "Auto Gain sets Output opposite the current Input when enabled; changing Output establishes a new offset for later Input adjustments.",
+          "Core IN controls wet-feed/raw-dry routing separately from host bypass. With IN off, raw dry is added after Output while the wet network continues zero-input/tail processing.",
+          "SC HPF filters the detector, not the audio output.",
+          "The meter strips show detector-driven reduction and smoothed saturation activity; they are not output peak meters or calibrated dB readouts."
+        ]
+      ]
+    ]
+  }
+};
  const pluginOverviews={
   "ATP-STEREO-LONER.md": "Hear how a track is sitting in the stereo field, from individual channels to a narrower or wider image. Useful for checking left/right balance, comparing stereo layers, and making placement decisions before reaching for more processing.",
   "ATP-BROOM-SERVICE.md": "Clear away low-end rumble and distracting high-frequency content with a focused pair of filters. Try it on recordings that need a cleaner place in the mix, or turn a filter sweep into movement on loops, synths, and transitions.",
@@ -1350,10 +1541,10 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const overview=$('#atp-panel-overview');
    setMarkdown(overview,sectionBody(source,'Overview').trim()||pluginOverviews[plugin.doc]||[plugin.description||plugin.summary,'Explore its sound on individual tracks or in your mix.'].join(' '));
    const controls=$('#atp-panel-controls');
-   const operatingNotes=operatingBody(source);
-   setMarkdown(controls,'## Controls\n\n'+(operatingNotes||'Operating instructions are not available for this plugin yet.'));
+   const guide=controlGuide(plugin,source);
+   renderControlGuide(controls,guide);
    for(const panel of [overview,controls])panel.querySelectorAll('img').forEach(image=>{const parent=image.parentElement;image.remove();if(parent.tagName==='P'&&!parent.textContent.trim()&&!parent.children.length)parent.remove();});
-   setMarkdown($('#atp-panel-install'),installationFor(plugin,source));
+   setMarkdown($('#atp-panel-install'),installationFor(plugin,source,guide.installation));
    setMarkdown($('#atp-panel-license'),'## License & notices\n\n'+license);emphasizeLicense();
    const specs=$$('.atp-specs dd');
    specs[3].textContent=/mono and stereo|mono or stereo|Mono \+ Stereo/i.test(source)?'Mono / Stereo':'See requirements';
