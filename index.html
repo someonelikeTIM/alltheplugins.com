@@ -953,7 +953,8 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  function renderActivityFeed(){
   const list=$('#atp-activity-list');if(!list)return;
   const inner=$('.atp-activity-inner'),heading=$('#atp-activity-title');
-  const limit=Math.max(0,Math.min(5,Math.floor((inner.clientHeight-heading.offsetHeight-8)/32)));
+  const rows=Math.max(0,Math.floor((inner.clientHeight-heading.offsetHeight-8)/32));
+  const limit=window.matchMedia('(max-width:540px)').matches?Math.min(5,rows):rows;
   const events=state.plugins.filter(plugin=>Number.isFinite(Date.parse(pluginActivity.updatedAt[plugin.doc]))).sort((a,b)=>Date.parse(pluginActivity.updatedAt[b.doc])-Date.parse(pluginActivity.updatedAt[a.doc])||collator.compare(a.name,b.name)).slice(0,limit);
   const fragment=document.createDocumentFragment();
   for(const plugin of events){
