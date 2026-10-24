@@ -436,6 +436,29 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-activity-row[data-kind="UPDATED"] .atp-activity-dot {background:#f2b65b;}
 #atp-preview .atp-plugin .atp-new-badge[data-kind="NEW"] {color:#79d99f;background:#79d99f14;border-color:#79d99f66;box-shadow:0 0 9px #79d99f30;text-shadow:0 0 6px #79d99f33;}
 
+
+/* Homepage hero and introduction. */
+#atp-preview .atp-release-summary {min-height:276px;padding:38px 0 42px;align-items:flex-end;gap:30px;}
+#atp-preview .atp-release-total {align-items:center;gap:32px;}
+#atp-preview #atp-release-total {font-size:clamp(120px,15vw,192px);font-weight:500;letter-spacing:-8px;}
+#atp-preview .atp-release-label {display:block;font-size:clamp(28px,3.4vw,42px);font-weight:500;line-height:1.18;letter-spacing:-1px;}
+#atp-preview .atp-counting-label {color:var(--atp-muted);font-weight:400;}
+#atp-preview .atp-release-updated {padding-bottom:14px;max-width:190px;}
+#atp-preview .atp-release-summary + .atp-download-intro {padding-top:38px;}
+@media(max-width:760px){
+ #atp-preview .atp-release-summary {min-height:228px;gap:20px;padding:30px 0;}
+ #atp-preview #atp-release-total {font-size:136px;}
+ #atp-preview .atp-release-label {font-size:30px;}
+ #atp-preview .atp-release-total {gap:22px;}
+}
+@media(max-width:540px){
+ #atp-preview .atp-release-summary {min-height:0;align-items:stretch;gap:16px;padding:30px 0 24px;}
+ #atp-preview .atp-release-total {flex-wrap:wrap;gap:12px 18px;}
+ #atp-preview #atp-release-total {font-size:112px;letter-spacing:-5px;}
+ #atp-preview .atp-release-label {font-size:27px;letter-spacing:-.6px;}
+ #atp-preview .atp-release-updated {padding:0;max-width:none;}
+ #atp-preview .atp-release-summary + .atp-download-intro {padding-top:28px;}
+}
 </style>
 
 </head><body>
@@ -449,17 +472,17 @@ body {margin:0;background:#0e1014;}
    <section class="atp-release-summary" aria-label="Available plugins and latest upload">
  <div class="atp-release-total">
   <strong id="atp-release-total" aria-live="polite" aria-busy="true">0</strong>
-  <div><span class="atp-release-label">FREE plugins</span><p>The collection keeps growing. Check back for new releases.</p></div>
+  <div><span class="atp-release-label">FREE plugins<br><span class="atp-counting-label">and counting...</span></span></div>
  </div>
  <p class="atp-release-updated">Last plugin upload<br><time id="atp-last-upload">2026-10-22</time></p>
 </section>
 <section class="atp-download-intro" aria-labelledby="atp-intro-title">
  <div>
-  <h1 id="atp-intro-title">Free audio plugins</h1>
-  <p>alltheplugins.com is an open-source collection of audio plugins that anybody can use to express their musical creativity.</p>
+  <h1 id="atp-intro-title">There is no catch.</h1>
+  <p>alltheplugins.com is an open-source collection of audio plugins that anybody can use to express their musical creativity. No subscriptions, sign-ups, or payment needed. If you want, you can <a href="https://ko-fi.com/alltheplugins" target="_blank" rel="noopener noreferrer">buy me a coffee</a> to support the site, but it’s also cool if you don’t.</p>
   <p>I’m a musician, and this is a personal, noncommercial project.</p>
-  <p>I’d love your help with this project. If you make music, try the plugins and share your feedback. If you build plugins, share something you’ve made. If you have an eye for design, help make the plugins look as good as they sound. If you’re good at explaining things, help me improve the instructions.</p>
-  <p>You can also <a href="https://ko-fi.com/alltheplugins" target="_blank" rel="noopener noreferrer">buy me a coffee</a> to support my work—totally optional, but always appreciated. And of course, sharing alltheplugins.com with your friends helps too. <a href="#/contribute">Contribute</a></p>
+  <p><strong>Want to contribute?</strong> If you make music, try the plugins and share your feedback. If you build plugins, share something you’ve made. If you have an eye for design, help make the plugins look as good as they sound. If you’re good at explaining things, help me improve the instructions.</p>
+  <p>And of course, sharing alltheplugins.com with your friends helps too. <a href="#/contribute">Contribute</a></p>
  </div>
  <aside class="atp-activity" aria-labelledby="atp-activity-title"><div class="atp-activity-inner"><h2 id="atp-activity-title">Latest activity</h2><div class="atp-activity-items"><ul id="atp-activity-list"></ul></div></div></aside>
 </section>
