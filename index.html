@@ -1069,7 +1069,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
  function markdown(source){
   const template=document.createElement('template');
-  template.innerHTML=marked.parse(source.replace(/</g,'&lt;'),{gfm:true,breaks:false});
+  template.innerHTML=marked.parse(source.replace(/<!--[\s\S]*?-->/g,'').replace(/</g,'&lt;'),{gfm:true,breaks:false});
   const allowed=new Set(['A','P','STRONG','EM','CODE','PRE','UL','OL','LI','H1','H2','H3','H4','H5','H6','BLOCKQUOTE','TABLE','THEAD','TBODY','TR','TH','TD','HR','BR','IMG','DEL']);
   for(const element of [...template.content.querySelectorAll('*')]){
    if(!allowed.has(element.tagName)){element.replaceWith(...element.childNodes);continue;}
@@ -1127,6 +1127,11 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const escaped=title.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
   const found=source.match(new RegExp('^# '+escaped+'\\s*\\n---\\s*\\n([\\s\\S]*?)(?=^# |$(?![\\s\\S]))','m'));
   return found?.[1]||'';
+ }
+ function operatingBody(source){
+  const start=source.search(/^# (?:Install and use|Controls)\s*$/im);if(start<0)return '';
+  const end=source.search(/^# License\s*$/im);
+  return source.slice(start,end>start?end:source.length).replace(/^# (?:Install and use|Controls)\s*\n---\s*\n/gim,'').trim();
  }
  async function documentFor(plugin){
   if(cache.has(plugin.doc))return cache.get(plugin.doc);
@@ -1268,6 +1273,50 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   for(const phrase of phrases){const start=text.indexOf(phrase,offset);if(start<0)continue;fragment.append(text.slice(offset,start));const strong=document.createElement('strong');strong.textContent=phrase;fragment.append(strong);offset=start+phrase.length;}
   fragment.append(text.slice(offset));permissions.replaceChildren(fragment);
  }
+ const pluginOverviews={
+  "ATP-STEREO-LONER.md": "Hear how a track is sitting in the stereo field, from individual channels to a narrower or wider image. Useful for checking left/right balance, comparing stereo layers, and making placement decisions before reaching for more processing.",
+  "ATP-BROOM-SERVICE.md": "Clear away low-end rumble and distracting high-frequency content with a focused pair of filters. Try it on recordings that need a cleaner place in the mix, or turn a filter sweep into movement on loops, synths, and transitions.",
+  "ATP-METRONOME.md": "Keep a clear rhythmic reference while recording, rehearsing, or building an arrangement. Adjustable click level and accents help establish the pulse without competing with the music, whether you need a quiet guide or a more pronounced beat.",
+  "ATP-DYNO-MITE.md": "Bring the leading edge and body of a sound into focus with transient shaping. Useful for giving drums more definition, reshaping the sustain of percussion, or helping picked and plucked instruments find their place in a busy arrangement.",
+  "ATP-TILT-NOUVEAU.md": "Shift a sound toward warmth or brightness with a broad tonal tilt. A useful first stop for balancing a dull instrument, softening an overly bright recording, or making a quick tonal adjustment to a group without building a complex EQ curve.",
+  "ATP-FUSION-STEREO-IMAGE.md": "Shape the relationship between the center and sides of a stereo signal, with separate attention to low-frequency space. Try it on synth layers, backing instruments, or mix groups when you want to refine the sense of width and placement.",
+  "ATP-LOOKAHEAD-COMPRESSOR.md": "Bring peaks and overall dynamics under control with lookahead compression. Useful for leveling vocals and instruments, containing energetic transients, or giving a group a steadier envelope while choosing how gently or firmly the compression responds.",
+  "ATP-SUB-SIFTER.md": "Focus the weight and shape of the low end, from restrained bass support to a more resonant emphasis. Try it on kick drums, bass instruments, and loops when the bottom needs a clearer role in the arrangement.",
+  "ATP-PHASE-ALIGN.md": "Adjust the timing and phase relationship between channels or related signals. Useful when combining multi-mic recordings, layered bass sounds, or parallel processing paths that need a more deliberate balance of reinforcement and cancellation.",
+  "ATP-PLUM-EQ.md": "Make broad musical changes to weight and brightness with shelving EQ and a high-pass filter. Try it on instruments, drum groups, or a mix bus when you want a fuller foundation, a clearer top end, or less unwanted low-frequency buildup.",
+  "ATP-NANO-DRIFT.md": "Add a sense of doubled performance through paired detuning and short delays. Useful for spreading backing vocals, giving synths a wider texture, or adding movement to guitar parts, from a subtle supporting layer to a more obvious doubled effect.",
+  "ATP-TREMOLO-PANNER.md": "Turn sustained sounds into pulses and stereo movement, with modulation that can focus on part of the frequency range. Try it on pads, keys, guitars, and loops when an arrangement needs rhythmic animation or a changing sense of space.",
+  "ATP-DE-ESSER.md": "Restrain distracting sibilance and other concentrated high-frequency energy. Useful for smoothing sharp vocal consonants, taming an insistent hi-hat, or making bright material easier to place without relying only on a static reduction in treble.",
+  "ATP-FERAL-RANGER.md": "Make quick, broad tonal decisions with a compact four-band equalizer. Useful for adding weight or presence to instruments, softening an uneven recording, or shaping a group when a small number of clear adjustments is all the mix needs.",
+  "ATP-I-HEART-NY.md": "Blend an assertively compressed layer with the original performance for extra weight and energy. Try it on drums, bass, or vocals when you want more density and attitude while keeping a direct connection to the uncompressed signal.",
+  "ATP-DEMON-LOCK.md": "Push compression and distortion into an aggressive, squeezed texture. A useful choice for roughening drum loops, adding bite to a parallel effects return, or turning a familiar recording into something more forceful for sound design.",
+  "ATP-FET-SLAP.md": "Emphasize transient character and shape the tone of the added attack. Try it on drums, percussion, and other rhythmic parts when the initial hit needs more definition, or blend it gently to add a little extra snap.",
+  "ATP-MASTERING-EQ.md": "Shape overall tonal balance with graphic EQ and filtering. Useful for refining a mix bus, balancing a group of instruments, or making deliberate changes to broad frequency regions without drawing a detailed parametric curve.",
+  "ATP-DECIPRESS.md": "Add compression, limiting, and parallel density with a response that follows the program material. Try it on drums, bass, or instrument groups when you want firmer level control, more weight, or a compressed layer beneath the original sound.",
+  "ATP-SECOND-BREATH.md": "Reshape the dynamic contour and perceived energy of a recording with restoration-style processing and parallel blending. Try it on flattened loops, sustained instruments, or dense material when you want to explore a different balance of body and movement.",
+  "ATP-TINY-TOASTER.md": "Add tube-style color, from a light touch of warmth to more audible saturation. Try it on vocals, bass, keys, or a parallel return when a clean recording needs a little extra body, texture, or edge.",
+  "ATP-ESS-EXIT.md": "Smooth sharp vocal consonants and bright passages with frequency-dependent attenuation. Useful for taking the edge off sibilant vocals or other treble-heavy material while keeping the amount and character of the processing under control.",
+  "ATP-PRECRATE.md": "Explore a range of saturation colors alongside simple tone-shaping filters. Try it on vocals, bass, drums, and keys when a track needs a different texture, or compare contrasting colors as part of a sound-design chain.",
+  "ATP-VOCAL-INTENSITY.md": "Combine drive, automatic leveling, and tonal shaping to give a vocal a more deliberate presence. Useful for bringing an uneven performance into focus, adding some edge, or helping a voice hold its place in a dense arrangement.",
+  "ATP-OUI-Q.md": "Shape low end, midrange presence, and top-end character with a musical three-band EQ and drive. Try it on vocals, guitars, keys, or groups when broad tonal choices and a touch of color are more useful than a complex corrective curve.",
+  "ATP-DEMON-LOCK-XL.md": "Combine heavy dynamics, distortion, tone shaping, and parallel blending for a more sculpted kind of aggression. Try it on drum groups, loops, bass, or effects returns when you want anything from supporting grit to a deliberately crushed texture.",
+  "ATP-VOCAL-GATEHOUSE.md": "Reduce the level of background sound between vocal phrases with an adjustable gating envelope. Useful for tidying vocal and spoken-word tracks, shaping how phrases open and close, or keeping quieter gaps more controlled within an arrangement.",
+  "ATP-TUBE-HEARTH.md": "Bring tube mixer-style color together with broad bass and treble shaping. Try it on bass, vocals, guitars, or drum groups when you want extra body and texture, from a supporting layer of warmth to a more driven sound.",
+  "ATP-OVERTONE-MILL.md": "Shape saturation through a blend of even- and odd-harmonic character. Useful for adding rounded weight or a rougher edge to bass, drums, keys, and groups, with parallel blending to keep the added texture in proportion.",
+  "ATP-CONSOLE-CLAMP.md": "Bring console-style compression and lookahead level control to individual tracks or groups. Try it on a drum bus, a busy instrument group, or a mix bus when you want a steadier envelope and more deliberate interaction between the instruments.",
+  "ATP-PULSE-CARVER.md": "Turn sustained sounds and loops into rhythmic pulses, chops, and evolving amplitude patterns. Editable shapes, event rhythms, and detector modulation make it useful for animating pads, reshaping percussion, or building movement that follows the energy of a performance.",
+  "ATP-NEEDLE-PRESS.md": "Explore four compression characters alongside tone shaping, harmonic color, and parallel blending. Try it on vocals, bass, drums, or groups when you want to compare different dynamic textures and shape both the movement and tonal weight of a recording.",
+  "ATP-VOCAL-EMBER.md": "Add vocal saturation ranging from a supporting layer of color to a more pronounced edge. Useful for giving a clean voice extra texture, bringing a vocal forward, or exploring different characters without committing the entire signal to the driven sound.",
+  "ATP-BLACKTOP-76.md": "Bring FET-style compression to energetic performances and transient-heavy material. Try it on drums, bass, vocals, or groups when you want more punch, a firmer envelope, or a more assertive compressed character in the mix.",
+  "ATP-PANDEMONIUM.md": "Set parts in motion across the stereo field with rhythmic patterns and audio-responsive movement. Try it on pads, guitars, percussion, and effects returns to animate a static sound or give a repeated phrase a changing position in the arrangement.",
+  "ATP-OFFSET-CHOIR.md": "Build a layered stereo doubling effect from independently pitched and delayed voices. Useful for broadening backing vocals, thickening guitar or keyboard parts, or moving from a restrained double toward a more animated ensemble texture.",
+  "ATP-VELVET-CINCH.md": "Shape peaks and overall intensity with a straightforward compressor and limiter. Try it on bass, guitars, synths, or groups when you want quick level control and a more focused envelope without a long list of timing decisions.",
+  "ATP-QUIET-VERSE.md": "Combine vocal compression and gentle gating to shape the flow of a voice. Useful for bringing phrases into a more consistent balance and reducing quieter background sound between them, especially in vocal-led arrangements and spoken-word recordings.",
+  "ATP-SATIN-TETHER.md": "Shape dynamics with soft-knee compression, expansion, and parallel blending. Try it on drums, bass, or instrument groups when you want to explore the balance between sustained body, transient definition, and the original performance.",
+  "ATP-LINEN-CURVE.md": "Shape a recording with flexible parametric bands, resonant shelves, and high- and low-cut filtering. Useful for clearing overlapping frequency regions, emphasizing an instrument's character, or making broader tonal decisions on groups and mixes.",
+  "ATP-ECHO-PARCEL.md": "Build rhythmic repeats and stereo echo patterns from individually shaped delay taps. Try it on vocals, guitars, percussion, and synths to create a supporting sense of space, a repeating hook, or a more elaborate moving delay texture.",
+  "ATP-PHOTON-CLAMP.md": "Combine VCA-style compression with saturation character, tone shaping, and parallel blend. Useful for tightening a rhythm section, adding density to instrument groups, or shaping the balance of punch and body on a mix bus."
+};
  async function renderPlugin(plugin){
   const request=++state.request;state.current=plugin;
   $('#plugin-title').textContent=plugin.name;$('[data-detail-name]').textContent=plugin.name;
@@ -1290,14 +1339,14 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    $('[data-release-version]').textContent=plugin.releaseVersion;
    $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
    renderDownloads(plugin,source,saved);
-   const installation=sectionBody(source,'Install and use');
    const licenseOffset=source.indexOf('\n# License\n');
    const license=licenseOffset>=0?source.slice(licenseOffset).replace(/^\n# License\n---\s*\n/,''):'';
-   const table=installation.match(/(?:^\|.*\|\s*\n)+/m)?.[0]||'';
-   const usage=table?installation.slice(installation.indexOf(table)+table.length).trim():installation;
    const overview=$('#atp-panel-overview');
-   setMarkdown(overview,usage||'See the Controls and Installation tabs for this plugin’s operating instructions.');
-   setMarkdown($('#atp-panel-controls'),'## Controls\n\n'+(table||'See the usage notes on the Overview tab.'));
+   setMarkdown(overview,sectionBody(source,'Overview').trim()||pluginOverviews[plugin.doc]||[plugin.description||plugin.summary,'Explore its sound on individual tracks or in your mix.'].join(' '));
+   const controls=$('#atp-panel-controls');
+   const operatingNotes=operatingBody(source);
+   setMarkdown(controls,'## Controls\n\n'+(operatingNotes||'Operating instructions are not available for this plugin yet.'));
+   for(const panel of [overview,controls])panel.querySelectorAll('img').forEach(image=>{const parent=image.parentElement;image.remove();if(parent.tagName==='P'&&!parent.textContent.trim()&&!parent.children.length)parent.remove();});
    setMarkdown($('#atp-panel-install'),installationFor(plugin));
    setMarkdown($('#atp-panel-license'),'## License & notices\n\n'+license);emphasizeLicense();
    const specs=$$('.atp-specs dd');
