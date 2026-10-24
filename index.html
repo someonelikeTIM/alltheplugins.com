@@ -374,6 +374,10 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-about-answer + .atp-about-answer {margin-top:22px;}
 #atp-preview .atp-about-answer h3 {margin-bottom:6px;}
 #atp-preview .atp-about-answer p {font-size:13px;line-height:1.75;}
+#atp-preview .atp-contribute-section + .atp-contribute-section {margin-top:28px;padding-top:28px;border-top:1px solid var(--atp-line);}
+#atp-preview .atp-contribute-section ul {padding-left:20px;margin:16px 0;color:var(--atp-muted);font-size:14px;line-height:1.85;}
+#atp-preview .atp-contribute-section p + p {margin-top:14px;}
+#atp-preview .atp-contribute-section .atp-contribute-link {display:inline-block;margin-top:16px;min-height:32px;}
 @media(max-width:1000px){
  #atp-preview .atp-about-layout {grid-template-columns:minmax(250px,.9fr) minmax(0,1.3fr);gap:44px;padding-top:48px;}
  #atp-preview .atp-about-aside h1 {font-size:44px;letter-spacing:-1.2px;}
@@ -431,7 +435,7 @@ body {margin:0;background:#0e1014;}
  <div class="atp-wrap">
   <header class="atp-header">
    <button type="button" class="atp-logo cursor-interaction" data-page="home" aria-label="alltheplugins.com home"><span class="atp-mark" aria-hidden="true"><b></b><b></b><b></b></span><span class="atp-wordmark">alltheplugins<span>.com</span></span></button>
-   <nav class="atp-nav" aria-label="Main navigation"><button type="button" class="cursor-interaction" data-page="home">Plugins</button><button type="button" class="atp-about atp-current cursor-interaction" data-page="about" aria-current="page">About</button></nav>
+   <nav class="atp-nav" aria-label="Main navigation"><button type="button" class="cursor-interaction" data-page="home">Plugins</button><button type="button" class="atp-about atp-current cursor-interaction" data-page="about" aria-current="page">About</button><button type="button" class="cursor-interaction" data-page="contribute">Contribute</button></nav>
   </header>
   <main id="atp-home">
    <section class="atp-release-summary" aria-label="Available plugins and latest upload">
@@ -532,7 +536,36 @@ body {margin:0;background:#0e1014;}
     </article>
    </div>
   </main>
-  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p></div><div><p>alltheplugins.com</p></div></footer>
+  <main id="atp-contribute-page" hidden>
+   <div class="atp-about-layout">
+    <header class="atp-about-aside">
+     <p class="atp-eyebrow">Help the project</p>
+     <h1>Contribute</h1>
+     <p class="atp-about-deck">Share a plugin, report a problem, or help make the collection more useful. You don’t need to write code to contribute.</p>
+     <button type="button" class="atp-text-action" data-page="home">Explore the plugins</button>
+    </header>
+    <article class="atp-about-reading" aria-label="Ways to contribute">
+     <section class="atp-contribute-section">
+      <h2>Contribute a plugin</h2>
+      <p>Made an audio plugin you’d like to share? Submit your project for consideration.</p>
+      <ul><li>A project or source-code link, with a license that permits sharing and any required third-party notices.</li><li>A short description, an actual editor screenshot, and installation and usage instructions.</li><li>Available builds and formats, such as Windows VST3, Mac VST3, or Mac AU, and what you’ve tested.</li></ul>
+      <p>Submit work you created or have permission to share. Submissions are reviewed for licensing, functionality, and compatibility before being added to the collection.</p>
+      <a class="atp-contribute-link" href="https://github.com/someonelikeTIM/all-the-plugins/issues/new?title=Plugin%20submission%3A%20&amp;body=Plugin%20name%3A%0AProject%20%2F%20source-code%20link%3A%0ALicense%20and%20third-party%20notices%3A%0AWhat%20it%20does%3A%0AAvailable%20builds%20and%20formats%3A%0AScreenshot%20link%3A%0AInstallation%20%2F%20usage%20documentation%3A%0AYour%20relationship%20to%20the%20project%20and%20permission%20to%20share%20it%3A%0A" target="_blank" rel="noopener noreferrer">Submit a plugin on GitHub</a>
+     </section>
+     <section class="atp-contribute-section">
+      <h2>Report a problem or suggest an improvement</h2>
+      <p>Tell me which plugin you’re using, what happened, and how to reproduce it. Ideas for clearer controls, better documentation, or useful features are welcome too.</p>
+      <a class="atp-contribute-link" href="https://github.com/someonelikeTIM/all-the-plugins/issues/new?title=Plugin%20feedback%3A%20&amp;body=Plugin%20name%3A%0APlatform%20and%20plugin%20format%3A%0AWhat%20happened%3A%0ASteps%20to%20reproduce%3A%0AWhat%20you%20expected%3A%0A" target="_blank" rel="noopener noreferrer">Share feedback on GitHub</a>
+     </section>
+     <section class="atp-contribute-section">
+      <h2>Help test or improve documentation</h2>
+      <p>Try a plugin in your music-making workflow, help explain a control, or suggest a correction to its instructions. Small improvements help other musicians get started.</p>
+      <a class="atp-contribute-link" href="https://github.com/someonelikeTIM/all-the-plugins/issues/new?title=Contribution%20offer%3A%20&amp;body=I%20would%20like%20to%20help%20with%3A%0APlugin%20or%20documentation%20page%3A%0ASuggested%20improvement%20or%20testing%20feedback%3A%0A" target="_blank" rel="noopener noreferrer">Offer to help on GitHub</a>
+     </section>
+    </article>
+   </div>
+  </main>
+  <footer class="atp-footer" id="atp-about"><span class="atp-status" id="site-status" role="status" hidden></span><div><p><strong>A personal project, freely shared.</strong></p></div><div><p><a href="#/contribute">Contribute</a></p><p>alltheplugins.com</p></div></footer>
  </div>
 </div>
 <noscript><p>Explore the plugin downloads and documentation at <a href="https://github.com/someonelikeTIM/all-the-plugins">the alltheplugins.com catalog on GitHub</a>. Enable JavaScript to browse this site.</p></noscript>
@@ -1265,16 +1298,16 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
  function route(){
   const segments=location.hash.replace(/^#\/?/,'').split('/').filter(Boolean);
-  const page=segments[0]==='about'?'about':segments[0]==='plugins'?'detail':'home';
-  $('#atp-home').hidden=page!=='home';$('#atp-about-page').hidden=page!=='about';$('#atp-detail').hidden=page!=='detail';
+  const page=segments[0]==='about'?'about':segments[0]==='contribute'?'contribute':segments[0]==='plugins'?'detail':'home';
+  $('#atp-home').hidden=page!=='home';$('#atp-about-page').hidden=page!=='about';$('#atp-contribute-page').hidden=page!=='contribute';$('#atp-detail').hidden=page!=='detail';
   if(page==='home'){if(releaseCount!==null)releaseCounter.reveal();updateNewBadges();}else releaseCounter.hide();
-  $$('.atp-nav [data-page]').forEach(button=>{const active=button.dataset.page===(page==='about'?'about':'home');button.classList.toggle('atp-current',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
+  $$('.atp-nav [data-page]').forEach(button=>{const active=button.dataset.page===(page==='detail'?'home':page);button.classList.toggle('atp-current',active);if(active)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
   if(page==='detail'){
    const plugin=state.plugins.find(item=>item.slug===(segments[1]==='fetsnap'?'fet-slap':segments[1])&&isSitePublished(item));
    for(const element of [$('.atp-download'),$('.atp-detail-image'),$('.atp-specs'),$('.atp-detail-tabs')])element.hidden=!plugin;
    if(plugin)renderPlugin(plugin);
    else{++state.request;state.current=null;$('#atp-download-files').replaceChildren();document.title='Plugin unavailable — alltheplugins.com';$('#plugin-title').textContent='Plugin not found';$('[data-detail-category]').textContent='';$('[data-detail-name]').textContent='Plugin not found';$('.atp-detail-top p:not(.atp-eyebrow)').textContent='This page may have been renamed. Browse the current catalog for its new name.';$('#atp-panel-overview').textContent='Choose a plugin from the catalog.';showTab('overview');}
-  }else document.title=page==='about'?'About — alltheplugins.com':'alltheplugins.com — Free audio plugins';
+  }else document.title=page==='contribute'?'Contribute — alltheplugins.com':page==='about'?'About — alltheplugins.com':'alltheplugins.com — Free audio plugins';
  }
  async function refreshCatalog(){
   try{
@@ -1305,7 +1338,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   if(event.target.closest('[data-detail-all]'))resetFilters();
   if(event.target.closest('[data-detail-category]')&&state.current){resetFilters(state.current.category);location.hash='#/';return;}
   const page=event.target.closest('[data-page]');
-  if(page){location.hash=page.dataset.page==='about'?'#/about':'#/';return;}
+  if(page){location.hash=page.dataset.page==='home'?'#/':'#/'+page.dataset.page;return;}
   const tab=event.target.closest('[data-tab]');if(tab){showTab(tab.dataset.tab);return;}
   const viewButton=event.target.closest('[data-view]');
   if(viewButton){setView(viewButton.dataset.view);savePreferences();return;}
