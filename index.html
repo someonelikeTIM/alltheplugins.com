@@ -92,7 +92,8 @@
 #atp-preview .atp-doc td:first-child {width:35%;}
 #atp-preview .atp-doc td:nth-child(2) {color:var(--atp-muted);}
 #atp-preview #atp-panel-controls h2 {font:500 17px/1.4 Arial,Helvetica,sans-serif;letter-spacing:0;}
-#atp-preview #atp-panel-controls .atp-control-notes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 36px;margin-top:28px;}
+#atp-preview #atp-panel-controls .atp-control-notes {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 36px;}
+#atp-preview #atp-panel-controls .atp-control-reference {margin-top:28px;padding-top:24px;border-top:1px solid var(--atp-line);}
 #atp-preview #atp-panel-controls .atp-control-notes h3 {margin:0 0 12px;}
 #atp-preview #atp-panel-controls li {margin-bottom:8px;}
 @media(max-width:700px){#atp-preview #atp-panel-controls .atp-control-notes {grid-template-columns:1fr;}}
@@ -1121,7 +1122,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   specs[2].textContent=[...new Set(files.map(file=>file.platform==='macOS'?'Mac':file.platform==='Other'?'Not specified':file.platform))].join(' / ')||'See downloads';
  }
  function installationFor(plugin,source='',notes=[]){
-  if(plugin.doc==='ATP-NEEDLE-PRESS.md'){
+  if(plugin.doc==='ATP-NEEDLE-PRESS.md'&&!notes.length){
    const installation=sectionBody(String(source).replace(/\r\n?/g,'\n'),'Install and use');
    const table=installation.match(/(?:^\|.*\|\s*\n)+/m);
    const instructions=table?installation.slice(0,table.index).trim():'';
@@ -1161,7 +1162,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
     if((/\b(?:download|extract|copy|install|rescan|upgrad|replac|dependencies|requirements)\w*\b/i.test(sentence)&&/\b(?:zip|bundle|vst3|component|host|build|runtime|installed|installation|plugin identity)\b/i.test(sentence))||/^Back up .*sessions|^Complete notices follow/i.test(sentence)){
      installation.push((platform?'**'+platform+':** ':'')+sentence.trim());continue;
     }
-    const title=platform||/^Mac\b/i.test(sentence)?'Platform notes':section||(/^(?:\*\*)?(?:Defaults?|Initial settings)\b/i.test(sentence)?'Defaults':/\b(?:drag|wheel|click|keys|keyboard|Tab|fine adjustment)\b/i.test(sentence)?'Using the interface':/\b(?:supports?|sample|latency|processing|automation|bypass|Nyquist|buffer|alignment|audio|state)\b/i.test(sentence)?'Audio support and behavior':'Usage notes');
+    const title=platform||/^Mac\b/i.test(sentence)?'Platform notes':section||(/^(?:\*\*)?(?:Defaults?|Initial settings)\b/i.test(sentence)?'Defaults':/\b(?:drag|wheel|click|keys|keyboard|Tab|fine adjustment)\b/i.test(sentence)?'Using the interface':/\b(?:supports?|sample|latency|processing|automation|bypass|Nyquist|buffer|alignment|audio|mono|stereo|state)\b/i.test(sentence)?'Audio support and behavior':'Usage notes');
     add(title,(platform?'**'+platform+':** ':'')+sentence);
    }
   }
@@ -1176,14 +1177,15 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    return {tables:[tables[0]+(curated.rows?'\n'+curated.rows.join('\n'):'')],groups:curated.groups,installation,referenceNote:'Control ranges in the reference table follow the Windows documentation. Mac-specific details are listed below.'};
   }
   if(!tables.length&&!groups.size)add('Using the interface','Operating instructions are not available for this plugin yet.');
-  return {tables:[...new Set(tables)],groups:[...groups],installation};
+  const order=['Using the interface','Usage notes','Defaults','Audio support and behavior','Platform notes'];
+  return {tables:[...new Set(tables)],groups:[...groups].sort((a,b)=>{const rank=title=>order.includes(title)?order.indexOf(title):5;return rank(a[0])-rank(b[0]);}),installation};
  }
  function renderControlGuide(element,guide){
   element.replaceChildren();
-  if(guide.tables.length){const reference=document.createElement('section');setMarkdown(reference,'## Control reference\n\n'+(guide.referenceNote?guide.referenceNote+'\n\n':'')+guide.tables.join('\n\n'));element.append(reference);}
   const notes=document.createElement('div');notes.className='atp-control-notes';
   for(const [title,items] of guide.groups){const section=document.createElement('section');setMarkdown(section,'### '+title+'\n\n'+items.map(item=>'- '+item.replace(/\n/g,'\n  ')).join('\n'));notes.append(section);}
   element.append(notes);
+  if(guide.tables.length){const reference=document.createElement('section');reference.className='atp-control-reference';setMarkdown(reference,'## Control reference\n\n'+(guide.referenceNote?guide.referenceNote+'\n\n':'')+guide.tables.join('\n\n'));element.append(reference);}
  }
  async function documentFor(plugin){
   if(cache.has(plugin.doc))return cache.get(plugin.doc);
