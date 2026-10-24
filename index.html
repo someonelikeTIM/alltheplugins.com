@@ -1174,7 +1174,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   }
   const curated=consolidatedControlNotes[plugin.doc];
   if(curated&&tables.length>1&&ATPCatalog.releaseVersion(source,'')===curated.version){
-   return {tables:[tables[0]+(curated.rows?'\n'+curated.rows.join('\n'):'')],groups:curated.groups,installation,referenceNote:'Control ranges in the reference table follow the Windows documentation. Mac-specific details are listed below.'};
+   return {tables:[tables[0]+(curated.rows?'\n'+curated.rows.join('\n'):'')],groups:curated.groups,installation,referenceNote:'Reference ranges follow the Windows documentation; platform-specific behavior is noted in the guide.'};
   }
   if(!tables.length&&!groups.size)add('Using the interface','Operating instructions are not available for this plugin yet.');
   const order=['Using the interface','Usage notes','Defaults','Audio support and behavior','Platform notes'];
