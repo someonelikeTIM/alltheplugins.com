@@ -1686,8 +1686,10 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   showTab('overview');
   try{
    const {source,saved}=await documentFor(plugin);if(request!==state.request)return;
-   const title=source.match(/^# (.+?) ([0-9]+\.[0-9]+\.[0-9]+)\s*$/m);
-   if(title){plugin.name=title[1].replace(/^ATP\s+/i,'');plugin.version=title[2];$('#plugin-title').textContent=plugin.name;$('[data-detail-name]').textContent=plugin.name;$('[data-detail-category]').textContent=plugin.category;}
+   const identity=ATPCatalog.pluginFromDocument(plugin,source);
+   plugin.name=identity.name.replace(/^ATP\s+/i,'');plugin.version=identity.version;
+   $('#plugin-title').textContent=plugin.name;$('[data-detail-name]').textContent=plugin.name;
+   document.title=plugin.name+' — alltheplugins.com';$('.atp-detail-image img').alt=plugin.name+' editor';
    plugin.releaseVersion=ATPCatalog.releaseVersion(source,plugin.releaseVersion||'v1.0');
    $('[data-release-version]').textContent=plugin.releaseVersion;
    $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
