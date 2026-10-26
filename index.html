@@ -472,6 +472,12 @@ body {margin:0;background:#0e1014;}
 #atp-preview .atp-privacy-body a { color:var(--atp-accent); text-decoration:underline; text-underline-offset:3px; }
 #atp-preview .atp-privacy-dialog :focus-visible,#atp-preview .atp-footer-privacy:focus-visible { outline:2px solid var(--atp-accent); outline-offset:4px; }
 @media(max-width:540px) { #atp-preview .atp-privacy-dialog { padding:20px; } }
+
+#atp-preview .atp-beta-badge,#atp-preview .atp-plugin-tail .atp-beta-badge {display:inline-flex;vertical-align:middle;align-items:center;margin-inline-start:8px;padding:2px 7px;border:1px solid var(--atp-accent);border-radius:4px;color:var(--atp-accent);font-size:11px;line-height:1.4;font-weight:600;letter-spacing:.02em;white-space:nowrap;}
+#atp-preview .atp-beta-notice {max-width:900px;margin:12px 0 24px;padding:12px 14px;border:1px solid var(--atp-line);border-radius:6px;color:var(--atp-muted);font-size:13px;line-height:1.6;overflow-wrap:anywhere;}
+#atp-preview .atp-beta-notice p {margin:0;}
+#atp-preview .atp-beta-notice a {color:var(--atp-accent);text-underline-offset:3px;}
+#atp-preview [data-download-release-status] {margin-inline-start:0;}
 </style>
 
 </head><body>
@@ -527,18 +533,20 @@ body {margin:0;background:#0e1014;}
  </div>
 </div>
 <div class="atp-active-filters"><button type="button" id="atp-clear-filters" hidden>Clear filters</button></div>
+<aside class="atp-beta-notice" aria-label="Beta release information"><p>Beta release. Please report UI bugs, crashes, installation issues, and unexpected audio behavior. Releases remain in beta until personally tested and promoted by the developer. <a href="https://github.com/someonelikeTIM/all-the-plugins/issues/new?title=Plugin%20feedback%3A%20&amp;body=Plugin%20name%3A%0APlatform%20and%20plugin%20format%3A%0AWhat%20happened%3A%0ASteps%20to%20reproduce%3A%0AWhat%20you%20expected%3A%0A" target="_blank" rel="noopener noreferrer">Report a bug</a></p></aside>
 <div class="atp-list-heading" aria-hidden="true"><span>Plugin</span><span>Type</span><span>Inspired by</span><span>OS Compatibility</span><span>Format</span></div>
 
     <div class="atp-grid" id="atp-grid"></div><p class="atp-empty" id="atp-empty" role="status" hidden>No plugins match. Try another search.</p>
    </section>
   </main>
   <main id="atp-detail" hidden>
-   <section class="atp-detail-top"><div><nav class="atp-breadcrumb" aria-label="Breadcrumb"><ol><li><button type="button" class="atp-back cursor-interaction" data-page="home" data-detail-all>All plugins</button></li><li><button type="button" data-detail-category></button></li><li aria-current="page" data-detail-name></li></ol></nav><h1 id="plugin-title"></h1><p></p></div></section>
+   <section class="atp-detail-top"><div><nav class="atp-breadcrumb" aria-label="Breadcrumb"><ol><li><button type="button" class="atp-back cursor-interaction" data-page="home" data-detail-all>All plugins</button></li><li><button type="button" data-detail-category></button></li><li aria-current="page" data-detail-name></li></ol></nav><h1 id="plugin-title"></h1><span class="atp-beta-badge" data-release-status>Beta</span><p></p></div></section>
+   <aside class="atp-beta-notice" aria-label="Beta release information" data-beta-notice><p>Beta release. Please report UI bugs, crashes, installation issues, and unexpected audio behavior. Releases remain in beta until personally tested and promoted by the developer. <a href="https://github.com/someonelikeTIM/all-the-plugins/issues/new?title=Plugin%20feedback%3A%20&amp;body=Plugin%20name%3A%0APlatform%20and%20plugin%20format%3A%0AWhat%20happened%3A%0ASteps%20to%20reproduce%3A%0AWhat%20you%20expected%3A%0A" target="_blank" rel="noopener noreferrer">Report a bug</a></p></aside>
    <div class="atp-detail-showcase">
     <div class="atp-detail-image"><img alt="Plugin editor"></div>
     <div class="atp-detail-sidebar">
     <aside class="atp-download" aria-label="Plugin downloads">
-     <span class="atp-download-label">Download</span>
+     <span class="atp-download-label">Download</span><span class="atp-beta-badge" data-download-release-status>Beta</span>
      <div id="atp-download-files" aria-live="polite"><p class="atp-file-note">Loading downloads…</p></div>
     </aside>
     <aside class="atp-specs" aria-label="Plugin specifications"><h3>At a glance</h3><dl><div><dt>Type</dt><dd></dd></div><div><dt>Format</dt><dd></dd></div><div><dt>Platform</dt><dd></dd></div><div><dt>Channels</dt><dd></dd></div><div><dt>Version</dt><dd data-release-version></dd></div><div><dt>Binary license</dt><dd></dd></div></dl><p class="atp-note"><span data-plugin-attribution></span></p></aside>
@@ -1258,7 +1266,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  function renderDownloads(plugin,source,saved=false){
   const container=$('#atp-download-files');container.replaceChildren();
   if(!source){const loading=document.createElement('p');loading.className='atp-file-note';loading.textContent='Loading downloads…';container.append(loading);return;}
-  const files=publishedDownloads(plugin,source,saved);plugin.downloads=files;
+  const files=publishedDownloads(plugin,source,saved);plugin.downloads=files;renderMaturity(plugin);
   const order=['Windows','macOS'];
   const sorted=[...files].sort((a,b)=>((order.indexOf(a.platform)+1)||3)-((order.indexOf(b.platform)+1)||3)||['VST3','AU','VST2'].indexOf(a.format)-['VST3','AU','VST2'].indexOf(b.format));
   for(const file of sorted){
@@ -1443,6 +1451,25 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   card.querySelector('[data-published-formats]').textContent=available.formats.join(' / ')||'—';
   card.querySelector('.atp-plugin-formats').title=available.formats.length?'Published formats: '+available.formats.join(' / '):'No published downloads';
  }
+ // Release maturity is independent of version numbers and automated technical gates.
+ // Add an exact key only after explicit developer direction following personal testing.
+ // New/changed releases default to beta; no storage, URL, or test result can promote them.
+ const releaseMaturityPolicy=Object.freeze({defaultStatus:'beta',approvedPromotions:Object.freeze({})});
+ function releaseMaturityKey(plugin){
+  const files=plugin.downloads||publishedDownloads(plugin,fallback?.documents?.[plugin.doc]||'',true);
+  const urls=files.map(file=>file.url).sort();
+  if(!urls.length||urls.some(url=>!/^https:\/\/raw\.githubusercontent\.com\/someonelikeTIM\/all-the-plugins\/[a-f0-9]{40}\/downloads\//.test(url)))return '';
+  return [plugin.doc,publicReleaseVersion(plugin),...urls].join('|');
+ }
+ function releaseMaturityStatus(plugin){
+  const key=releaseMaturityKey(plugin);
+  return key&&Object.hasOwn(releaseMaturityPolicy.approvedPromotions,key)&&releaseMaturityPolicy.approvedPromotions[key]==='stable'?'stable':releaseMaturityPolicy.defaultStatus;
+ }
+ function renderMaturity(plugin){
+  const beta=releaseMaturityStatus(plugin)==='beta';
+  for(const selector of ['[data-release-status]','[data-download-release-status]']){const label=$(selector);label.textContent=beta?'Beta':'';label.hidden=!beta;}
+  $('[data-beta-notice]').hidden=!beta;
+ }
  function renderCatalog(){
   populateFilters();
   const fragment=document.createDocumentFragment();
@@ -1458,6 +1485,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    const image=card.querySelector('img');image.src=screenshot(plugin);image.alt=plugin.name+' editor';image.loading='lazy';card.querySelector('.atp-plugin-image').hidden=!plugin.image;
    card.querySelector('.atp-plugin-meta > span').textContent=plugin.category;
    card.querySelector('h3').textContent=plugin.name;
+   if(releaseMaturityStatus(plugin)==='beta'){const badge=document.createElement('span');badge.className='atp-beta-badge';badge.textContent='Beta';card.querySelector('h3').append(badge);card.setAttribute('aria-label',card.getAttribute('aria-label')+' Beta release.');}
    const release=publicReleaseVersion(plugin);
    if(release){const version=document.createElement('span');version.className='atp-plugin-version';version.textContent=release;card.querySelector('h3').append(version);card.setAttribute('aria-label',plugin.name+' '+release+'. '+card.getAttribute('aria-label').slice(plugin.name.length+2));}
    card.querySelector('p').textContent=plugin.summary||plugin.description||(plugin.inspiration?'Inspired by '+plugin.inspiration+'.':'Open for documentation and downloads.');
@@ -1671,7 +1699,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   "ATP-PHOTON-CLAMP.md": "Combine VCA-style compression with saturation character, tone shaping, and parallel blend. Useful for tightening a rhythm section, adding density to instrument groups, or shaping the balance of punch and body on a mix bus."
 };
  async function renderPlugin(plugin){
-  const request=++state.request;state.current=plugin;
+  const request=++state.request;state.current=plugin;renderMaturity(plugin);
   $('#plugin-title').textContent=plugin.name;$('[data-detail-name]').textContent=plugin.name;
   document.title=plugin.name+' — alltheplugins.com';
   $('[data-detail-category]').textContent=plugin.category;
@@ -1691,6 +1719,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    $('#plugin-title').textContent=plugin.name;$('[data-detail-name]').textContent=plugin.name;
    document.title=plugin.name+' — alltheplugins.com';$('.atp-detail-image img').alt=plugin.name+' editor';
    plugin.releaseVersion=ATPCatalog.releaseVersion(source,plugin.releaseVersion||'v1.0');
+   renderMaturity(plugin);
    $('[data-release-version]').textContent=plugin.releaseVersion;
    $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
    renderDownloads(plugin,source,saved);
