@@ -526,6 +526,17 @@ body {margin:0;background:#0e1014;}
  #atp-preview .atp-collection-member figure {height:78px;}
  #atp-preview .atp-collections .atp-section-head span {font-size:11px;}
 }
+</style><style>
+#atp-preview .atp-pagination {display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:18px;border-top:1px solid var(--atp-line);}
+#atp-preview .atp-pagination p {margin:0;color:var(--atp-muted);font-size:12px;}
+#atp-preview #atp-page-buttons {display:flex;align-items:center;flex-wrap:wrap;gap:5px;}
+#atp-preview #atp-page-buttons button {min-width:34px;min-height:36px;padding:7px 10px;border:1px solid var(--atp-line);border-radius:3px;background:none;color:var(--atp-accent);font-size:12px;cursor:pointer;}
+#atp-preview #atp-page-buttons button:hover:enabled {background:var(--atp-surface);}
+#atp-preview #atp-page-buttons button:disabled {color:var(--atp-muted);opacity:.45;cursor:default;}
+#atp-preview #atp-page-buttons button[aria-current="page"] {color:var(--atp-ink);border-color:var(--atp-accent);opacity:1;background:var(--atp-surface);}
+#atp-preview #atp-page-buttons span {color:var(--atp-muted);padding:0 3px;}
+#atp-preview #atp-collection-title {scroll-margin-top:24px;}
+@media(max-width:640px){#atp-preview .atp-pagination {align-items:flex-start;flex-direction:column;}#atp-preview #atp-page-buttons {gap:4px;}}
 </style></head><body>
 <div id="atp-preview" data-catalog-view="list" aria-label="alltheplugins.com">
  <div class="atp-wrap">
@@ -566,7 +577,7 @@ body {margin:0;background:#0e1014;}
     <div class="atp-collection-platform"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.18 0c.09.95-.3 1.87-.86 2.55-.58.67-1.5 1.17-2.43 1.1-.12-.91.34-1.87.88-2.47C9.37.5 10.36.04 11.18 0ZM13.84 12.36c-.36.83-.54 1.2-1 1.93-.66 1.02-1.59 2.28-2.74 2.29-1.02.01-1.28-.66-2.67-.65-1.38.01-1.68.67-2.7.66-1.15-.01-2.03-1.14-2.69-2.16-1.85-2.84-2.04-6.19-.9-7.97.81-1.26 2.09-2 3.3-2 1.23 0 2 .68 3.01.68.98 0 1.57-.68 3-.68 1.07 0 2.21.59 3.02 1.61-2.66 1.45-2.22 5.22.37 6.29Z" transform="translate(1 0) scale(.9)"/></svg><span>Mac<small>VST3 / AU</small></span></div>
    </div>
    <details class="atp-collection-download"><summary>Download all <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1v9m-4-4 4 4 4-4M2 10v4h12v-4"/></svg></summary>
-    <div class="atp-collection-download-menu"><a href="https://raw.githubusercontent.com/someonelikeTIM/all-the-plugins/4e47bb712898de3d7464c15b42fda76ce51ffe26/downloads/collections/ATP-Musician-Essentials-Windows-VST3.zip" download>Windows VST3 · All 6 plugins</a><a href="https://raw.githubusercontent.com/someonelikeTIM/all-the-plugins/4e47bb712898de3d7464c15b42fda76ce51ffe26/downloads/collections/ATP-Musician-Essentials-Mac-VST3-AU.zip" download>Mac VST3 + AU · All 6 plugins</a></div>
+    <div class="atp-collection-download-menu"><a href="https://raw.githubusercontent.com/someonelikeTIM/all-the-plugins/d67c9d60e074f2e627adb78f2008895181d52d00/downloads/collections/ATP-Musician-Essentials-Windows-VST3.zip" download>Windows VST3 · All 6 plugins</a><a href="https://raw.githubusercontent.com/someonelikeTIM/all-the-plugins/d67c9d60e074f2e627adb78f2008895181d52d00/downloads/collections/ATP-Musician-Essentials-Mac-VST3-AU.zip" download>Mac VST3 + AU · All 6 plugins</a></div>
    </details>
   </div>
   <ul class="atp-collection-members" aria-label="Plugins in the Musician Essentials collection">
@@ -579,7 +590,7 @@ body {margin:0;background:#0e1014;}
   </ul>
  </div>
 </section>
-<section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title">Plugin downloads</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
+<section aria-labelledby="atp-collection-title"><div class="atp-section-head"><h2 id="atp-collection-title" tabindex="-1">Plugin downloads</h2><span id="catalog-count" role="status" aria-live="polite">From the collection</span></div>
     <div class="atp-catalog-controls" aria-label="Browse the catalog">
  <label class="atp-catalog-field atp-catalog-search">Search
   <input type="search" id="atp-search" aria-label="Search plugins" placeholder="Search all fields">
@@ -610,6 +621,7 @@ body {margin:0;background:#0e1014;}
 <div class="atp-list-heading" aria-hidden="true"><span>Plugin</span><span>Type</span><span>Inspired by</span><span>OS Compatibility</span><span>Format</span></div>
 
     <div class="atp-grid" id="atp-grid"></div><p class="atp-empty" id="atp-empty" role="status" hidden>No plugins match. Try another search.</p>
+<nav id="atp-pagination" class="atp-pagination" aria-label="Plugin download pages" hidden><p id="atp-page-status" role="status" aria-live="polite"></p><div id="atp-page-buttons"></div></nav>
    </section>
   </main>
   <main id="atp-detail" hidden>
@@ -1078,7 +1090,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  }
  const analytics=createATPAnalytics(window,document,{"measurementId":"G-0KM0WZMB1Y","verified":true,"enhancedHistoryDisabled":true,"enhancedDownloadsDisabled":true,"otherAutomaticInteractionsDisabled":true,"singleTagOwner":true,"adsFeaturesDisabled":true,"consentMode":"basic"});
  window.ATPAnalytics=analytics;
- const state={plugins:[],category:'All',os:'All',format:'All',query:'',view:'list',sort:'updated-desc',lastUploadAt:null,current:null,request:0};
+ const state={plugins:[],category:'All',os:'All',format:'All',query:'',view:'list',sort:'updated-desc',page:1,pageSize:12,lastUploadAt:null,current:null,request:0};
  const collator=new Intl.Collator('en',{numeric:true,sensitivity:'base'});
  try {
   const saved=JSON.parse(localStorage.getItem('alltheplugins.catalog')||'{}');
@@ -1490,20 +1502,46 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   if(ordered.every((card,index)=>card===cards[index]))return;
   const focused=document.activeElement;
   ordered.forEach(card=>grid.append(card));
+  filter(false);
   if(grid.contains(focused))focused.focus({preventScroll:true});
  }
- function filter(){
-  let shown=0;
+ function filter(resetPage=true){
+  if(resetPage)state.page=1;
+  const matches=[];
   const terms=state.query.toLowerCase().trim().split(/\s+/).filter(Boolean);
   $$('.atp-plugin').forEach(card=>{
    const matchesDownload=(state.os==='All'&&state.format==='All')||JSON.parse(card.dataset.downloads).some(file=>(state.os==='All'||file.platform===state.os)&&(state.format==='All'||file.formats.includes(state.format)));
    const visible=(state.category==='All'||state.category===card.dataset.category)&&matchesDownload&&terms.every(term=>card.dataset.search.includes(term));
-   card.hidden=!visible;if(visible)shown++;
+   card.hidden=!visible;if(visible)matches.push(card);
   });
+  const shown=matches.length,pages=Math.max(1,Math.ceil(shown/state.pageSize));
+  state.page=Math.min(Math.max(1,state.page),pages);
+  const start=(state.page-1)*state.pageSize;
+  matches.forEach((card,index)=>{card.hidden=index<start||index>=start+state.pageSize;});
+  renderPagination(shown,pages,start);
   $('#atp-empty').hidden=shown>0;
   $('#catalog-count').textContent=shown===state.plugins.length?shown+' plugins':shown+' of '+state.plugins.length+' plugins';
   $('#atp-clear-filters').hidden=state.category==='All'&&state.os==='All'&&state.format==='All'&&!state.query;
   updateFilterOptions(terms);
+ }
+ function renderPagination(total,pages,start){
+  const nav=$('#atp-pagination'),links=$('#atp-page-buttons');
+  nav.hidden=total<=state.pageSize;links.replaceChildren();
+  $('#atp-page-status').textContent=total?(start+1)+'–'+Math.min(start+state.pageSize,total)+' of '+total+' plugins · Page '+state.page+' of '+pages:'No plugins';
+  const add=(label,page,disabled=false,current=false)=>{
+   const button=document.createElement('button');button.type='button';button.textContent=label;
+   button.dataset.catalogPage=page;button.disabled=disabled;
+   button.setAttribute('aria-label',/^\d+$/.test(label)?'Page '+page:label+' page');
+   if(current)button.setAttribute('aria-current','page');links.append(button);
+  };
+  add('Previous',state.page-1,state.page===1);
+  const visible=pages<=7?Array.from({length:pages},(_,i)=>i+1):[...new Set([1,state.page-1,state.page,state.page+1,pages])].filter(p=>p>=1&&p<=pages).sort((a,b)=>a-b);
+  let previous=0;
+  for(const page of visible){
+   if(previous&&page>previous+1){const gap=document.createElement('span');gap.textContent='…';gap.setAttribute('aria-hidden','true');links.append(gap);}
+   add(String(page),page,page===state.page,page===state.page);previous=page;
+  }
+  add('Next',state.page+1,state.page===pages);
  }
  function resetFilters(category='All'){
   state.category=category;state.os='All';state.format='All';state.query='';
@@ -1580,7 +1618,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    renderCompatibility(card,available);
    fragment.append(card);
   });
-  $('#atp-grid').replaceChildren(fragment);setView(state.view);filter();updateReleaseSummary();updateNewBadges();renderActivityFeed();
+  $('#atp-grid').replaceChildren(fragment);setView(state.view);filter(false);updateReleaseSummary();updateNewBadges();renderActivityFeed();
  }
  function showTab(tab){
   if(!['overview','controls','install','license'].includes(tab))tab='overview';
@@ -1905,6 +1943,11 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   const page=event.target.closest('[data-page]');
   if(page){location.hash=page.dataset.page==='home'?'#/':'#/'+page.dataset.page;return;}
   const tab=event.target.closest('[data-tab]');if(tab){showTab(tab.dataset.tab);return;}
+  const pageButton=event.target.closest('[data-catalog-page]');
+  if(pageButton){
+   state.page=Number(pageButton.dataset.catalogPage);filter(false);
+   const heading=$('#atp-collection-title');heading.focus({preventScroll:true});heading.scrollIntoView({block:'start',behavior:'instant'});return;
+  }
   const viewButton=event.target.closest('[data-view]');
   if(viewButton){setView(viewButton.dataset.view);savePreferences();return;}
   if(event.target.closest('#atp-clear-filters'))resetFilters();
@@ -1919,7 +1962,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
  $('#atp-type').addEventListener('change',event=>{state.category=event.target.value;filter();});
  $('#atp-os').addEventListener('change',event=>{state.os=event.target.value;filter();});
  $('#atp-format').addEventListener('change',event=>{state.format=event.target.value;filter();});
- $('#atp-sort').addEventListener('change',event=>{state.sort=event.target.value;renderCatalog();savePreferences();});
+ $('#atp-sort').addEventListener('change',event=>{state.sort=event.target.value;state.page=1;renderCatalog();savePreferences();});
  window.addEventListener('hashchange',()=>{route();window.scrollTo({top:0,behavior:'instant'});});
  async function start(){
   try{
