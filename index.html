@@ -1459,8 +1459,9 @@ if(__exports != exports)module.exports = exports;return module.exports}));
 
  function controlGuide(plugin,source){
   const tokens=marked.lexer(operatingBody(source).replace(/<!--[\s\S]*?-->/g,''));
-  const table=tokens.find(token=>token.type==='table');
-  return {tables:table?[table.raw.trim()]:[]};
+  const table=tokens.find(token=>token.type==='table');let raw=table?.raw.trim()||'';
+  if(plugin.doc==='ATP-PULSE-CARVER.md'&&raw&&!raw.includes('| EDIT / CLOSE |'))raw+='\n| EDIT / CLOSE | Opens or closes the detailed Shape and Rhythm editors. |';
+  return {tables:raw?[raw]:[]};
  }
  function renderControlGuide(element,guide){
   setMarkdown(element,guide.tables[0]||'Control descriptions are included with the download.');
@@ -1704,7 +1705,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   $('.atp-detail-image img').src=screenshot(plugin);
   $('.atp-detail-image img').alt=plugin.name+' editor';
   $$('.atp-specs dd').forEach((entry,index)=>entry.textContent=[plugin.category,'See downloads','See downloads','See requirements',plugin.releaseVersion||'v1.0','See license'][index]);
-  $('[data-release-version]').parentElement.hidden=!fallback?.documents?.[plugin.doc];
+  $('[data-release-version]').parentElement.hidden=true;
   renderDownloads(plugin,fallback?.documents?.[plugin.doc]||'',true);
   $('.atp-specs [data-plugin-attribution]').textContent=attribution(plugin);$('.atp-specs [data-plugin-attribution]').hidden=!attribution(plugin);
   for(const panel of $$('[role="tabpanel"]')){panel.replaceChildren();const loading=document.createElement('p');loading.className='atp-loading';loading.textContent='Loading plugin documentation…';panel.append(loading);}
@@ -1718,7 +1719,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
    plugin.releaseVersion=ATPCatalog.releaseVersion(source,plugin.releaseVersion||'v1.0');
    renderMaturity(plugin);
    $('[data-release-version]').textContent=plugin.releaseVersion;
-   $('[data-release-version]').parentElement.hidden=!ATPCatalog.releaseVersion(source,'');
+   $('[data-release-version]').parentElement.hidden=true;
    renderDownloads(plugin,source,saved);
    const license=mainLicense(source);
    const overview=$('#atp-panel-overview');
