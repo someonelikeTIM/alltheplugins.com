@@ -598,7 +598,7 @@ body{background:#0b0c0d}
  padding:6px 0 6px 22px;border-left:1px solid #707676;
  font-size:12px;font-weight:500;line-height:1.6;letter-spacing:4px;white-space:nowrap;color:var(--atp-ink);
 }
-#atp-preview .atp-nav{gap:12px}
+#atp-preview .atp-nav{gap:26px}
 #atp-preview .atp-nav button,
 #atp-preview .atp-detail-tabs button,
 #atp-preview .atp-view-switch button,
@@ -606,68 +606,39 @@ body{background:#0b0c0d}
 #atp-preview .atp-full-download,
 #atp-preview .atp-file-link,
 #atp-preview .atp-collection-download summary,
-#atp-preview .atp-collection-download a{
- position:relative;border:0;border-radius:7px;
- background:linear-gradient(#25292a,#141718);color:#cfd5d6;
- box-shadow:0 1px 1px #0006;font-weight:500;text-decoration:none;
-}
-#atp-preview .atp-nav button::after,
-#atp-preview .atp-detail-tabs button::after,
-#atp-preview .atp-view-switch button::after,
-#atp-preview #atp-page-buttons button::after,
-#atp-preview .atp-full-download::after,
-#atp-preview .atp-file-link::after,
-#atp-preview .atp-collection-download summary::after,
-#atp-preview .atp-collection-download a::after{
- content:"";position:absolute;left:7px;right:7px;bottom:0;height:1px;border-radius:2px;
- background:var(--atp-brand-cyan);opacity:.3;pointer-events:none;
-}
-#atp-preview .atp-nav button{min-height:38px;padding:8px 17px}
-#atp-preview .atp-nav button:hover,
-#atp-preview .atp-detail-tabs button:hover,
-#atp-preview .atp-view-switch button:hover,
-#atp-preview #atp-page-buttons button:not(:disabled):hover,
-#atp-preview .atp-full-download:hover,
-#atp-preview .atp-file-link:hover,
-#atp-preview .atp-collection-download summary:hover,
-#atp-preview .atp-collection-download a:hover{color:#fff;background:linear-gradient(#303738,#1b2223);text-decoration:none}
-#atp-preview .atp-nav .atp-current,
-#atp-preview .atp-detail-tabs button[aria-selected=true],
-#atp-preview .atp-view-switch button[aria-pressed=true],
-#atp-preview #atp-page-buttons button[aria-current=page],
-#atp-preview .atp-full-download,
-#atp-preview .atp-file-link{background:linear-gradient(#20565b,#10292c);color:#fff;font-weight:600}
-#atp-preview .atp-nav .atp-current::after,
-#atp-preview .atp-detail-tabs button[aria-selected=true]::after,
-#atp-preview .atp-view-switch button[aria-pressed=true]::after,
-#atp-preview #atp-page-buttons button[aria-current=page]::after,
-#atp-preview .atp-full-download::after,
-#atp-preview .atp-file-link::after{height:2px;opacity:1;box-shadow:0 0 5px #00e1e98c,0 0 9px #00e1e92e}
-#atp-preview .atp-detail-tabs{gap:12px;padding:20px 0 18px}
-#atp-preview .atp-detail-tabs button{padding:10px 16px;min-height:40px}
+#atp-preview .atp-collection-download a,
+#atp-preview .atp-privacy-heading button,
+#atp-preview .atp-primary{position:relative;border:0;border-radius:0;background:none;box-shadow:none;color:var(--atp-muted);font-weight:500;text-decoration:none}
+#atp-preview .atp-nav button::after,#atp-preview .atp-detail-tabs button::after,#atp-preview .atp-view-switch button::after,#atp-preview #atp-page-buttons button::after,#atp-preview .atp-full-download::after,#atp-preview .atp-file-link::after,#atp-preview .atp-collection-download summary::after,#atp-preview .atp-collection-download a::after{content:none}
+#atp-preview .atp-nav button{min-height:38px;padding:8px 0}
+#atp-preview .atp-nav button:hover,#atp-preview .atp-detail-tabs button:hover,#atp-preview .atp-view-switch button:hover,#atp-preview #atp-page-buttons button:not(:disabled):hover,#atp-preview .atp-full-download:hover,#atp-preview .atp-file-link:hover,#atp-preview .atp-collection-download summary:hover,#atp-preview .atp-collection-download a:hover{color:var(--atp-ink);background:none;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:6px}
+#atp-preview .atp-nav .atp-current,#atp-preview .atp-detail-tabs button[aria-selected=true],#atp-preview .atp-view-switch button[aria-pressed=true],#atp-preview #atp-page-buttons button[aria-current=page]{background:none;color:var(--atp-accent);font-weight:500;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:7px}
+#atp-preview .atp-full-download,#atp-preview .atp-file-link,#atp-preview .atp-collection-download summary,#atp-preview .atp-collection-download a,#atp-preview .atp-primary{color:var(--atp-accent);text-decoration:underline;text-decoration-color:#00e1e955;text-decoration-thickness:1px;text-underline-offset:6px}
+#atp-preview .atp-detail-tabs{gap:26px;padding:16px 0}
+#atp-preview .atp-detail-tabs button{padding:10px 0;min-height:40px}
 #atp-preview .atp-full-card{background:linear-gradient(135deg,#191c1d,#0b0d0e);border-color:#303536;border-radius:10px;box-shadow:0 8px 24px #0002}
 #atp-preview .atp-full-status{color:var(--atp-brand-amber)}
 #atp-preview .atp-full-copy p{color:var(--atp-muted)}
-#atp-preview .atp-full-details{color:var(--atp-ink)}
-#atp-preview .atp-full-download{padding:13px 16px;min-height:46px;transition:none}
+#atp-preview .atp-full-details{color:var(--atp-muted);text-align:left}
+#atp-preview .atp-full-download{display:inline-flex;width:auto;text-align:left;padding:8px 0;min-height:40px;transition:none}
 #atp-preview .atp-full-brand{color:var(--atp-ink)}
 #atp-preview .atp-full-brand img{width:80px;height:32px}
 #atp-preview #atp-download-files{gap:10px;align-items:center}
-#atp-preview .atp-file-link{padding:10px 15px;min-height:40px;line-height:1.5}
+#atp-preview .atp-file-link{padding:8px 0;min-height:40px;line-height:1.5}
 #atp-preview .atp-download-separator{display:none}
 #atp-preview .atp-download{align-items:center;gap:10px 12px}
 #atp-preview .atp-catalog-field input,#atp-preview .atp-catalog-field select{background:#181c1d;border-color:#3a4243;border-radius:7px}
 #atp-preview .atp-catalog-field input:focus-visible,#atp-preview .atp-catalog-field select:focus-visible{outline:2px solid var(--atp-brand-cyan);outline-offset:2px}
 #atp-preview .atp-view-switch{gap:8px;background:none;border:0;padding:0;overflow:visible}
 #atp-preview #atp-page-buttons{gap:8px}
-#atp-preview #atp-page-buttons button{min-height:36px}
+#atp-preview #atp-page-buttons button{min-height:36px;min-width:28px;padding:7px 6px}
 #atp-preview .atp-beta-badge{border-color:#e831a566;color:#e8a8d0;background:#e831a509}
 #atp-preview .atp-activity-identity .atp-activity-beta{border-color:#e831a566}
 #atp-preview .atp-plugin .atp-new-badge{color:var(--atp-brand-amber);border-color:#ffc14366;background:#ffc1430d;box-shadow:none;text-shadow:none}
 #atp-preview .atp-activity-row[data-kind="NEW"] .atp-activity-dot{background:var(--atp-brand-cyan);box-shadow:none}
 #atp-preview .atp-activity-row[data-kind="UPDATED"] .atp-activity-dot{background:var(--atp-brand-amber)}
 #atp-preview .atp-activity-row[data-maturity="stable"] .atp-activity-name{color:var(--atp-brand-amber)}
-#atp-preview .atp-collection-download summary,#atp-preview .atp-collection-download a{padding:10px 16px}
+#atp-preview .atp-collection-download summary,#atp-preview .atp-collection-download a{padding:10px 0}
 #atp-preview h1{font-weight:300;letter-spacing:-1.8px}
 #atp-preview .atp-about-reading h2,#atp-preview .atp-about-aside h1{font-weight:300}
 #atp-preview #atp-release-total{font-weight:300;color:var(--atp-brand-cyan)}
@@ -677,16 +648,16 @@ body{background:#0b0c0d}
  #atp-preview .atp-logo{gap:16px}
  #atp-preview .atp-mark{width:78px;height:32px}
  #atp-preview .atp-wordmark{padding-left:16px;font-size:10px;letter-spacing:2.8px}
- #atp-preview .atp-nav{gap:8px}
- #atp-preview .atp-nav button{padding:8px 12px}
+ #atp-preview .atp-nav{gap:22px}
+ #atp-preview .atp-nav button{padding:8px 0}
 }
 @media(max-width:600px){
  #atp-preview .atp-header{flex-wrap:wrap;gap:18px;padding:24px 0 20px}
- #atp-preview .atp-nav{width:100%;gap:10px}
- #atp-preview .atp-nav button{min-height:40px;flex:1;padding:9px 12px;font-size:13px}
+ #atp-preview .atp-nav{width:100%;gap:26px}
+ #atp-preview .atp-nav button{min-height:40px;flex:none;padding:9px 0;font-size:13px}
  #atp-preview .atp-wordmark{font-size:11px;letter-spacing:3px}
- #atp-preview .atp-detail-tabs{gap:8px}
- #atp-preview .atp-detail-tabs button{flex:1;min-width:0;padding:10px 9px}
+ #atp-preview .atp-detail-tabs{gap:20px}
+ #atp-preview .atp-detail-tabs button{flex:none;min-width:0;padding:10px 0}
  #atp-preview .atp-detail-tabs button:last-child{flex:0 1 auto}
  #atp-preview .atp-file-link{min-height:44px}
  #atp-preview .atp-full-brand{display:none}
