@@ -1358,7 +1358,7 @@ if(__exports != exports)module.exports = exports;return module.exports}));
   finally{pluginActivity.checkedAt=Date.now();savePluginActivity();refreshRecentOrder();updateNewBadges();renderActivityFeed();}
  }
 
- const approvedReleasePresentation=Object.freeze({"ATP-DEMON-LOVE.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"},"ATP-FETSLAP.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"},"ATP-VOCAL-INTENSITY.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"}});
+ const approvedReleasePresentation=Object.freeze({"ATP-DEMON-LOVE.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"},"ATP-FETSLAP.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"},"ATP-VOCAL-INTENSITY.md":{"version":"v1.0","releasedAt":"2026-11-05T04:23:26.821Z"},"ATP-TUBULAR-CL-1B-MK-II.md":{"version":"v1.0","releasedAt":"2026-11-05T04:24:45.000Z"}});
  function publicReleaseVersion(plugin){
   if(approvedReleasePresentation[plugin?.doc])return approvedReleasePresentation[plugin.doc].version;
   if(plugin.fresh)return plugin.releaseVersion||'';
